@@ -1,0 +1,15 @@
+@import 'https://fonts.googleapis.com/css2?family=Noto+Sans+SC&display=swap';
+
+body {
+  --bg-color: #fff;
+  --color: #333;
+  &.dark {
+    --color: #fff;
+    --bg-color: #575757;
+  }
+
+  font-family: 'Noto Sans SC', sans-serif;
+  background-color: var(--bg-color);
+  min-height: 100vh;
+  color: var(--color);
+}
