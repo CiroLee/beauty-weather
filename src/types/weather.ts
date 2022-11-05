@@ -1,8 +1,3 @@
-interface ICommonWeatherRes {
-  updateTime: string;
-  fxLink: string;
-}
-
 export interface IWeatherNow {
   obsTime: string;
   temp: string;
@@ -26,7 +21,8 @@ interface ISourceRefer {
   license?: string[];
 }
 
-export interface IWeatherNowRes extends ICommonWeatherRes {
-  now: IWeatherNow[];
+export interface IWeatherNowRes {
+  now: IWeatherNow;
+  updateTime: string;
   reffer: ISourceRefer;
 }

@@ -4,7 +4,7 @@ import { ERROR_CODE } from './constants';
 import { ICommonRes } from '@/types/http';
 const axiosInstance = axios.create({
   timeout: 3 * 36000,
-  withCredentials: true,
+  baseURL: 'https://ciro.club',
 });
 const request = <T>(config: AxiosRequestConfig): Promise<ICommonRes<T>> => {
   return new Promise((resolve, reject) => {
