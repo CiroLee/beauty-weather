@@ -1,0 +1,9 @@
+.icon {
+  font-size: var(--icon-size);
+  color: var(--icon-color);
+  &.use-gradient {
+    color: transparent;
+    background-image: var(--icon-gradient);
+    background-clip: text;
+  }
+}

@@ -3,13 +3,17 @@
 body {
   --bg-color: #fff;
   --color: #333;
+  --brief-weather-color: #1a8cff;
   &.dark {
     --color: #fff;
     --bg-color: #575757;
+    --brief-weather-color: #1e2735;
   }
 
   font-family: 'Noto Sans SC', sans-serif;
   background-color: var(--bg-color);
   min-height: 100vh;
   color: var(--color);
+  font-size: 16px;
+  line-height: 1.3;
 }

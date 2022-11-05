@@ -1,0 +1,16 @@
+.brief-weather {
+  height: 440px;
+  background-color: var(--brief-weather-color);
+  overflow: hidden;
+  &__data {
+    margin-top: 144px;
+    color: #fff;
+    text-align: center;
+    p {
+      margin-top: 12px;
+    }
+    .name {
+      font-size: 20px;
+    }
+  }
+}

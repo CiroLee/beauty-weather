@@ -1,9 +1,3 @@
-// import { atom } from 'recoil';
-// export const counterState = atom({
-//   key: 'counterState',
-//   default: 0,
-// });
-
 import create from 'zustand';
 interface CounterState {
   count: number;

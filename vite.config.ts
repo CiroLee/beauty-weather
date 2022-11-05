@@ -43,4 +43,12 @@ export default defineConfig({
       },
     },
   },
+  server: {
+    proxy: {
+      '/api': {
+        target: 'https://ciro.club',
+        changeOrigin: true,
+      },
+    },
+  },
 });
