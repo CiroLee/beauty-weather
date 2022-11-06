@@ -4,10 +4,30 @@ body {
   --bg-color: #fff;
   --color: #333;
   --brief-weather-color: #1a8cff;
+
+  // message
+  --msg-info-bg: #f2f9ff;
+  --msg-info-border: #80bfff;
+  --msg-success-bg: #d0f5d8;
+  --msg-success-border: #4fe36f;
+  --msg-warn-bg: #ffebcc;
+  --msg-warn-border: #ffcb7d;
+  --msg-error-bg: #ffdede;
+  --msg-error-border: #fc9797;
   &.dark {
     --color: #fff;
     --bg-color: #575757;
     --brief-weather-color: #1e2735;
+
+    // message
+    --msg-info-bg: #293547;
+    --msg-info-border: #496582;
+    --msg-success-bg: #2d6639;
+    --msg-success-border: #369c4c;
+    --msg-warn-bg: #82530c;
+    --msg-warn-border: #e39014;
+    --msg-error-bg: #731e2d;
+    --msg-error-border: #b8374f;
   }
 
   font-family: 'Noto Sans SC', sans-serif;

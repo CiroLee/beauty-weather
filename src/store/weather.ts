@@ -1,8 +1,10 @@
 import create from 'zustand';
 import request from '@/utils/request';
-
+import Message from '@/components/Message';
 import { IWeatherNow, IWeatherNowRes } from '@/types/weather';
 import { ERROR_CODE } from '@/utils/constants';
+
+const message = new Message();
 interface State {
   now: IWeatherNow | null;
   getNow: (location: string) => void;
@@ -25,6 +27,8 @@ const useWeatherStore = create<State>()((set) => {
             ...state,
             now: result.data.now,
           }));
+        } else {
+          message.error(result.message);
         }
       } catch (error) {
         console.error(error);

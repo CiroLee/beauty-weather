@@ -2,8 +2,12 @@
   height: 440px;
   background-color: var(--brief-weather-color);
   overflow: hidden;
+  &--location {
+    font-size: 32px;
+    margin-bottom: 18px;
+  }
   &__data {
-    margin-top: 144px;
+    margin-top: 100px;
     color: #fff;
     text-align: center;
     p {

@@ -1,0 +1,70 @@
+.message {
+  height: 48px;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 2px;
+  color: var(--color);
+  border-width: 1px;
+  border-style: solid;
+  i {
+    margin-right: 8px;
+  }
+  &--info {
+    background-color: var(--msg-info-bg);
+    border-color: var(--msg-info-border);
+    i {
+      color: #1a8cff;
+    }
+  }
+  &--success {
+    background-color: var(--msg-success-bg);
+    border-color: var(--msg-success-border);
+    i {
+      color: #1fc242;
+    }
+  }
+  &--warn {
+    background-color: var(--msg-warn-bg);
+    border-color: var(--msg-warn-border);
+    i {
+      color: #e69a29;
+    }
+  }
+  &--error {
+    background-color: var(--msg-error-bg);
+    border-color: var(--msg-error-border);
+    i {
+      color: #fc4747;
+    }
+  }
+  &.out {
+    animation: message-out 0.8s forwards;
+  }
+
+  animation: message-in 0.5s both;
+}
+
+@keyframes message-in {
+  from {
+    transform: translate(-50%, -100px);
+  }
+  to {
+    transform: translate(-50%, 32px);
+  }
+}
+
+@keyframes message-out {
+  from {
+    transform: translate(-50%, 32px);
+    opacity: 1;
+  }
+  to {
+    transform: translate(-50%, -100px);
+    opacity: 0;
+  }
+}

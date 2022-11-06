@@ -2,7 +2,7 @@
   font-size: var(--icon-size);
   color: var(--icon-color);
   &.use-gradient {
-    color: transparent;
+    color: transparent !important;
     background-image: var(--icon-gradient);
     background-clip: text;
   }
