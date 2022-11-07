@@ -26,7 +26,7 @@ export default defineConfig({
           propList: ['*'],
           viewportUnit: 'vw',
           fontViewportUnit: 'vw',
-          selectorBlackList: [],
+          selectorBlackList: ['.ignore'],
           minPixelValue: 1,
           mediaQuery: false,
           replace: true,
