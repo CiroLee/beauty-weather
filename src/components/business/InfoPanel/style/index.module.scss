@@ -1,0 +1,33 @@
+.panel {
+  height: 80px;
+  border-radius: 6px;
+  padding: 8px;
+  background-color: var(--info-bg);
+  display: flex;
+}
+
+.panel-main {
+  flex: 2;
+  &__head {
+    display: flex;
+    align-items: center;
+    span {
+      font-size: 13px;
+    }
+  }
+  &__content {
+    margin: 6px 0 0 18px;
+    font-size: 24px;
+  }
+}
+
+.panel-rest {
+  flex: 1;
+  font-size: 12px;
+  position: relative;
+  overflow: hidden;
+  &__tips {
+    position: absolute;
+    bottom: 4px;
+  }
+}

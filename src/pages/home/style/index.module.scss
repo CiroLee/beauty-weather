@@ -1,0 +1,16 @@
+.home {
+  &__hourly {
+    margin-top: 12px;
+  }
+  &__info-panels {
+    display: flex;
+    justify-content: center;
+    margin: 20px 18px;
+    & > div {
+      flex: 1;
+      &:nth-child(2n) {
+        margin-left: 14px;
+      }
+    }
+  }
+}

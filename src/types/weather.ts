@@ -63,6 +63,22 @@ export interface IWeatherForcast {
   uvIndex: string; // 紫外线强度指数
 }
 
+export interface IWeatherHourly {
+  fxTime: string; // 预报时间 精确到小时
+  temp: string;
+  icon: string;
+  text: string;
+  wind360: string;
+  windDir: string;
+  windScale: string; // 风力等级
+  humidity: string;
+  pop?: string; // 逐小时预报降水概率，百分比数值
+  precip: string; // 前小时累计降水量，默认单位：毫米
+  pressure: string;
+  cloud?: string;
+  dew?: string; // 露点温度
+}
+
 interface ISourceRefer {
   sources?: string[];
   license?: string[];
@@ -83,5 +99,10 @@ export interface IWeatherNowRes {
 
 export interface IWeatherForcastRes {
   daily: IWeatherForcast[];
+  reffer: ISourceRefer;
+}
+
+export interface IWeatherHourlyRes {
+  hourly: IWeatherHourly[];
   reffer: ISourceRefer;
 }

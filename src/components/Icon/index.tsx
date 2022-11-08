@@ -8,7 +8,7 @@ interface IConProps {
   color?: string;
   gradient?: string;
   style?: string;
-  classNames?: string;
+  className?: string;
 }
 const Icon: FC<IConProps> = (props: IConProps) => {
   const size = props.size ?? 'inherit';
@@ -21,7 +21,7 @@ const Icon: FC<IConProps> = (props: IConProps) => {
   return (
     <i
       style={styleVars}
-      className={cn('icon', `${props.type}-${props.name}`, {
+      className={cn('icon', props.className, `${props.type}-${props.name}`, {
         'use-gradient': !!props.gradient,
       })}></i>
   );

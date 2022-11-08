@@ -14,6 +14,10 @@ body {
   --msg-warn-border: #ffcb7d;
   --msg-error-bg: #ffdede;
   --msg-error-border: #fc9797;
+
+  // hourly & info-panel
+  --info-bg: rgb(133 133 133 / 14%);
+  --hourly-item-sub-color: rgb(0 0 0 / 36%);
   &.dark {
     --color: #fff;
     --bg-color: #575757;
@@ -28,6 +32,10 @@ body {
     --msg-warn-border: #e39014;
     --msg-error-bg: #731e2d;
     --msg-error-border: #b8374f;
+
+    // hourly
+    --info-bg: rgb(0 0 0 / 32%);
+    --hourly-item-sub-color: rgb(172 172 172);
   }
 
   font-family: 'Noto Sans SC', sans-serif;
