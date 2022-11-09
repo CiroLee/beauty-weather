@@ -4,12 +4,13 @@
   }
   &__info-panels {
     display: flex;
-    justify-content: center;
+    flex-wrap: wrap;
     margin: 20px 18px;
     & > div {
-      flex: 1;
+      width: calc(50% - 6px);
+      margin-bottom: 12px;
       &:nth-child(2n) {
-        margin-left: 14px;
+        margin-left: 12px;
       }
     }
   }

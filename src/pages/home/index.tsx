@@ -1,10 +1,9 @@
-import { FC, useEffect, useState } from 'react';
-import { useAsync } from 'react-use';
+import { FC, useEffect, useState, useMemo } from 'react';
+import { useMedia, useAsync } from 'react-use';
 import HourlyForcast from '@/components/business/HourlyForcast';
 import BriefWeather from '@/components/business/BriefWeather';
-import { BodyTempPanel } from '@/components/business/InfoPanel';
+import { BodyTempPanel, HumidityPanel, SunsetPanel } from '@/components/business/InfoPanel';
 import style from './style/index.module.scss';
-import { useMedia } from 'react-use';
 import classNames from 'classnames/bind';
 import { useWeatherNowStore, useCityStore, useForcastStore } from '@/store/weather';
 import { getWeatherForcastHourly } from '@/services/weather-service';
@@ -14,8 +13,8 @@ const Home: FC = () => {
   const [hourly, setHourly] = useState<IWeatherHourly[]>([]);
   const isDark = useMedia('(prefers-color-scheme: dark)');
   const { locationId } = useCityStore((state) => state);
-  const { getNow: getWeatherNow } = useWeatherNowStore((state) => state);
-  const { getForcast } = useForcastStore((state) => state);
+  const { now, getNow: getWeatherNow } = useWeatherNowStore((state) => state);
+  const { daily, getForcast } = useForcastStore((state) => state);
   useEffect(() => {
     if (isDark) {
       document.body.classList.add('dark');
@@ -40,8 +39,24 @@ const Home: FC = () => {
       <BriefWeather />
       <HourlyForcast className={cx('home__hourly')} options={hourly} />
       <div className={cx('home__info-panels')}>
-        <BodyTempPanel text="123" />
-        <BodyTempPanel text="234" />
+        {useMemo(
+          () => (
+            <BodyTempPanel text={now?.feelsLike} />
+          ),
+          [now?.feelsLike],
+        )}
+        {useMemo(
+          () => (
+            <HumidityPanel text={now?.humidity} />
+          ),
+          [now?.humidity],
+        )}
+        {useMemo(
+          () => (
+            <SunsetPanel sunrize={daily[0]?.sunrise} sunset={daily[0]?.sunset} />
+          ),
+          [daily[0]?.sunrise, daily[0]?.sunset],
+        )}
       </div>
     </div>
   );

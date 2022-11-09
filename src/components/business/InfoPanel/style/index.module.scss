@@ -13,6 +13,7 @@
     align-items: center;
     span {
       font-size: 13px;
+      margin-top: -3px;
     }
   }
   &__content {
@@ -24,10 +25,26 @@
 .panel-rest {
   flex: 1;
   font-size: 12px;
-  position: relative;
   overflow: hidden;
-  &__tips {
+  position: relative;
+  &__icon {
     position: absolute;
     bottom: 4px;
+    right: 8px;
+    &.sun {
+      color: #fa8734;
+    }
+    &.moon {
+      color: var(--moon-color);
+    }
+  }
+  &__tips {
+    width: 100%;
+    position: absolute;
+    bottom: 4px;
+    text-align: right;
+    p:first-child {
+      margin-bottom: 2px;
+    }
   }
 }
