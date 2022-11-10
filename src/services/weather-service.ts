@@ -2,7 +2,7 @@ import request from '@/utils/request';
 import Loading from '@/components/Loading';
 import Message from '@/components/Message';
 import { ERROR_CODE } from '@/utils/constants';
-import type { IWeatherNowRes, IWeatherForcastRes, IWeatherHourlyRes } from '@/types/weather';
+import type { IWeatherNowRes, IWeatherForcastRes, IWeatherHourlyRes, IAirQualityRes } from '@/types/weather';
 
 const loading = new Loading();
 const message = new Message();
@@ -72,6 +72,28 @@ export const getWeatherForcastHourly = async (location: string): Promise<[IWeath
     }
     return [result.data, true];
   } catch (error) {
+    console.error(error);
+    return [undefined, false];
+  } finally {
+    loading.stop();
+  }
+};
+
+export const getAirQualityNow = async (location: string): Promise<[IAirQualityRes | undefined, boolean]> => {
+  try {
+    loading.start();
+    const result = await request<IAirQualityRes>({
+      url: '/api/tools/weather/air',
+      method: 'POST',
+      data: { location },
+    });
+    if (result.code !== ERROR_CODE.success.code) {
+      message.error(result.message || '请求失败');
+      return [undefined, false];
+    }
+    return [result.data, true];
+  } catch (error) {
+    console.error(error);
     return [undefined, false];
   } finally {
     loading.stop();

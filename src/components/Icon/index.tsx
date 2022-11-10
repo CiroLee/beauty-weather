@@ -7,16 +7,18 @@ interface IConProps {
   size?: string;
   color?: string;
   gradient?: string;
-  style?: string;
+  style?: React.CSSProperties;
   className?: string;
 }
 const Icon: FC<IConProps> = (props: IConProps) => {
   const size = props.size ?? 'inherit';
-  const color = props.color ?? '#000';
+  const color = props.color ?? 'inherit';
+  const _style = props.style || {};
   const styleVars = {
     '--icon-size': size,
     '--icon-color': color,
     '--icon-gradient': props.gradient ? props.gradient : '',
+    ..._style,
   } as React.CSSProperties;
   return (
     <i

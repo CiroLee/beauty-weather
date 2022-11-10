@@ -62,7 +62,7 @@ export interface IWeatherForcast {
   cloud?: string; // 云量
   uvIndex: string; // 紫外线强度指数
 }
-
+// 小时预报
 export interface IWeatherHourly {
   fxTime: string; // 预报时间 精确到小时
   temp: string;
@@ -77,6 +77,20 @@ export interface IWeatherHourly {
   pressure: string;
   cloud?: string;
   dew?: string; // 露点温度
+}
+// 实时空气质量
+export interface IAirQuality {
+  pubTime: string;
+  aqi: string; // 空气质量指数
+  level: string;
+  category: string;
+  primary: string; // 空气质量的主要污染物，空气质量为优时，返回值为NA
+  pm10: string;
+  pm2p5: string;
+  no2: string;
+  so2: string;
+  co: string;
+  o3: string;
 }
 
 interface ISourceRefer {
@@ -105,4 +119,10 @@ export interface IWeatherForcastRes {
 export interface IWeatherHourlyRes {
   hourly: IWeatherHourly[];
   reffer: ISourceRefer;
+}
+
+export interface IAirQualityRes {
+  now: IAirQuality;
+  station?: (IAirQuality & { id: string })[];
+  refer: ISourceRefer;
 }

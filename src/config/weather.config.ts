@@ -43,3 +43,22 @@ export const HumidityMap: InfoConfig[] = [
     text: '潮湿,注意除湿',
   },
 ];
+
+export const iconToBgMap: InfoConfig[] = [
+  {
+    range: [100, 199],
+    text: '1xx',
+  },
+  {
+    range: [300, 399],
+    text: '3xx',
+  },
+  {
+    range: [400, 499],
+    text: '4xx',
+  },
+  {
+    range: [500, 599],
+    text: '5xx',
+  },
+];

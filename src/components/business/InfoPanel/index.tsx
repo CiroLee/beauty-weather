@@ -1,7 +1,8 @@
 import React, { FC } from 'react';
 import Icon from '@/components/Icon';
 import classNames from 'classnames/bind';
-import { tempMap, HumidityMap, InfoConfig } from './config';
+import { tempMap, HumidityMap, InfoConfig } from '@/config/weather.config';
+import { useDayTimeStore } from '@/store/weather';
 import style from './style/index.module.scss';
 const cx = classNames.bind(style);
 
@@ -31,12 +32,11 @@ const extractTips = (text: string, config: InfoConfig[]) => {
 };
 
 interface PanelItem {
-  text?: string;
+  value?: string;
   panelClassName?: string;
 }
 // 体感温度
 export const BodyTempPanel: FC<PanelItem> = (props: PanelItem) => {
-  console.log(props.text);
   return (
     <Panel panelClassName={props.panelClassName}>
       <div className={cx('panel-main')}>
@@ -49,17 +49,15 @@ export const BodyTempPanel: FC<PanelItem> = (props: PanelItem) => {
           />
           <span>体感温度</span>
         </div>
-        <div className={cx('panel-main__content', 'num-font')}>{props.text}°C</div>
+        <div className={cx('panel-main__content', 'num-font')}>{props.value}°C</div>
       </div>
-      <div className={cx('panel-rest')}>{props.text && extractTips(props.text, tempMap)}</div>
+      <div className={cx('panel-rest')}>{props.value && extractTips(props.value, tempMap)}</div>
     </Panel>
   );
 };
 
 // 湿度
 export const HumidityPanel: FC<PanelItem> = (props: PanelItem) => {
-  console.log(props.text);
-
   return (
     <Panel panelClassName={props.panelClassName}>
       <div className={cx('panel-main')}>
@@ -72,9 +70,9 @@ export const HumidityPanel: FC<PanelItem> = (props: PanelItem) => {
           />
           <span>湿度</span>
         </div>
-        <div className={cx('panel-main__content', 'num-font')}>{props.text}%</div>
+        <div className={cx('panel-main__content', 'num-font')}>{props.value}%</div>
       </div>
-      <div className={cx('panel-rest')}>{props.text && extractTips(props.text, HumidityMap)}</div>
+      <div className={cx('panel-rest')}>{props.value && extractTips(props.value, HumidityMap)}</div>
     </Panel>
   );
 };
@@ -83,27 +81,7 @@ interface ISunsetPanelProps extends Omit<PanelItem, 'text'> {
   sunset: string;
 }
 export const SunsetPanel: FC<ISunsetPanelProps> = (props: ISunsetPanelProps) => {
-  function isDayTime(sunrize?: string, sunset?: string): { time: string; isDay: boolean } {
-    const currentTime = Date.now();
-    const year = new Date().getFullYear();
-    const month = new Date().getMonth() + 1;
-    const day = new Date().getDate();
-    const sunrizeTime = new Date(`${year}/${month}/${day} ${sunrize}`).getTime();
-    const sunsetTime = new Date(`${year}/${month}/${day} ${sunset}`).getTime();
-
-    // 白天， 返回日落时间
-    if (currentTime >= sunrizeTime && currentTime <= sunsetTime) {
-      return {
-        time: sunset || '',
-        isDay: true,
-      };
-    }
-    return {
-      time: sunrize || '',
-      isDay: false,
-    };
-  }
-
+  const { isDayTime } = useDayTimeStore((state) => state);
   return (
     <Panel panelClassName={props.panelClassName}>
       <div className={cx('panel-main')}>
@@ -114,16 +92,62 @@ export const SunsetPanel: FC<ISunsetPanelProps> = (props: ISunsetPanelProps) => 
             gradient="linear-gradient(180deg, rgba(255, 101, 5, 1) 0%, rgba(255, 216, 77, 1) 100%)"
             size="18px"
           />
-          <span>{isDayTime(props.sunrize, props.sunset).isDay ? '日落' : '日出'}</span>
+          <span>{isDayTime ? '日落' : '日出'}</span>
         </div>
-        <div className={cx('panel-main__content', 'num-font')}>{isDayTime(props.sunrize, props.sunset).time}</div>
+        <div className={cx('panel-main__content', 'num-font')}>{isDayTime ? props.sunset : props.sunrize}</div>
       </div>
       <div className={cx('panel-rest')}>
-        {isDayTime(props.sunrize, props.sunset).isDay ? (
+        {isDayTime ? (
           <Icon type="ri" name="sun-fill" size="28px" className={cx('panel-rest__icon', 'sun')} />
         ) : (
           <Icon type="ri" name="moon-fill" size="28px" className={cx('panel-rest__icon', 'moon')} />
         )}
+      </div>
+    </Panel>
+  );
+};
+
+interface IAirQualityPanel extends PanelItem {
+  category?: string;
+}
+
+export const AirQualityPanel: FC<IAirQualityPanel> = (props: IAirQualityPanel) => {
+  function calcPercent(value?: number) {
+    if (!value) {
+      return '0%';
+    }
+    if (value > 300) {
+      return '82%';
+    }
+    return `${Math.round(value / 3)}%`;
+  }
+  return (
+    <Panel panelClassName={props.panelClassName}>
+      <div className={cx('panel-main')}>
+        <div className={cx('panel-main__head')}>
+          <Icon
+            type="ri"
+            name="hearts-line"
+            gradient="linear-gradient(180deg, rgba(222, 4, 4, 1) 0%, rgba(247, 156, 52, 1) 98.93%)"
+            size="18px"
+          />
+          <span>空气质量</span>
+        </div>
+        <div className={cx('panel-main__content', 'num-font', 'ellipsis-one')}>
+          <span>{props.value}</span>
+          <span className={cx('panel-main__sub-text')}>{props.category}</span>
+        </div>
+      </div>
+      <div className={cx('panel-rest')}>
+        <div className={cx('panel-rest__quality-bar')}>
+          <Icon
+            type="ri"
+            name="drop-fill"
+            size="12px"
+            style={{ top: calcPercent(Number(props.value)) }}
+            className={cx('panel-rest__quality-pointer')}
+          />
+        </div>
       </div>
     </Panel>
   );

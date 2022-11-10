@@ -4,6 +4,7 @@ body {
   --bg-color: #fff;
   --color: #333;
   --brief-weather-color: #1a8cff;
+  --brief-weather-mist-color: #768189;
   --moon-color: #1924be;
 
   // message
@@ -21,8 +22,9 @@ body {
   --hourly-item-sub-color: rgb(0 0 0 / 36%);
   &.dark {
     --color: #fff;
-    --bg-color: #575757;
+    --bg-color: #494c51;
     --brief-weather-color: #1e2735;
+    --brief-weather-mist-color: #1d2127;
     --moon-color: #dedede;
 
     // message

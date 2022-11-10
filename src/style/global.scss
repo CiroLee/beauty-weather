@@ -3,3 +3,9 @@
 .num-font {
   font-family: Barlow, sans-serif;
 }
+
+.ellipsis-one {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
