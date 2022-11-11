@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
-import pxtovw from 'postcss-px-to-viewport';
+import px2vw from '@yuo/postcss-px2vw';
 import autoprefixer from 'autoprefixer';
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -19,7 +19,7 @@ export default defineConfig({
       // 自动追加前缀
       plugins: [
         autoprefixer(),
-        pxtovw({
+        px2vw({
           unitToConvert: 'px',
           viewportWidth: 375,
           unitPrecision: 5,
@@ -32,15 +32,6 @@ export default defineConfig({
           replace: true,
         }),
       ],
-    },
-  },
-  build: {
-    terserOptions: {
-      compress: {
-        //生产环境时移除console,debugger
-        drop_console: true,
-        drop_debugger: true,
-      },
     },
   },
 });

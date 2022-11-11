@@ -20,8 +20,10 @@ const Layout: FC = () => {
     getNow(locationId);
     getForcast(locationId, 7);
     getAirQualityNow(locationId);
-    judgeDayTime(daily[0]?.sunrise, daily[1]?.sunset);
   }, []);
+  useEffect(() => {
+    judgeDayTime(daily[0]?.sunrise, daily[0]?.sunset);
+  }, [daily[0]?.sunrise, daily[0]?.sunset]);
   return <Outlet />;
 };
 
