@@ -7,8 +7,4 @@ import './style/theme.scss';
 import './style/global.scss';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
-root.render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>,
-);
+root.render(<RouterProvider router={router} />);
