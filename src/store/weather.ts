@@ -1,7 +1,7 @@
 import create from 'zustand';
 import { persist } from 'zustand/middleware';
-import { getWeatherNow, getWeatherForcast, getAirQualityNow } from '@/services/weather-service';
-import { IAirQuality, IWeatherForcast, IWeatherNow } from '@/types/weather';
+import { getWeatherNow, getWeatherForcast, getAirQualityNow, getWeatherIndices } from '@/services/weather-service';
+import { IAirQuality, IDailyIndices, IndicesType, IWeatherForcast, IWeatherNow } from '@/types/weather';
 
 // 当前使用的城市信息
 interface CityState {
@@ -108,6 +108,23 @@ export const useAirQualityNow = create<IAirQualityNowState>()((set) => {
         set(() => ({
           now: result?.now,
           station: result?.station || [],
+        }));
+      }
+    },
+  };
+});
+interface IWeatherIndicesState {
+  indices: IDailyIndices[];
+  getIndices: (location: string, type?: IndicesType[]) => void;
+}
+export const useWeatherIndices = create<IWeatherIndicesState>()((set) => {
+  return {
+    indices: [],
+    getIndices: async (location: string, type?: IndicesType[]) => {
+      const [result, ok] = await getWeatherIndices(location, type);
+      if (ok) {
+        set(() => ({
+          indices: result?.daily,
         }));
       }
     },

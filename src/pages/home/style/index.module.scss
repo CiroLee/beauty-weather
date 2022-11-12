@@ -12,6 +12,10 @@
       &:nth-child(2n) {
         margin-left: 12px;
       }
+      &:nth-child(3),
+      &:nth-child(4) {
+        margin-bottom: 0;
+      }
     }
   }
   &__map {

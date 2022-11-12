@@ -5,7 +5,7 @@ body {
   --color: #333;
   --brief-weather-color: #1a8cff;
   --brief-weather-mist-color: #768189;
-  --moon-color: #1924be;
+  --moon-color: #ffd358;
 
   // message
   --msg-info-bg: #f2f9ff;
@@ -19,13 +19,14 @@ body {
 
   // hourly & info-panel
   --info-bg: rgb(133 133 133 / 14%);
-  --hourly-item-sub-color: rgb(0 0 0 / 36%);
+  --info-item-sub-color: rgb(0 0 0 / 36%);
+  --info-item-bg: #fcfcfc;
+  --info-item-border-color: #e7e7e7;
   &.dark {
     --color: #fff;
     --bg-color: #494c51;
     --brief-weather-color: #1e2735;
     --brief-weather-mist-color: #1d2127;
-    --moon-color: #dedede;
 
     // message
     --msg-info-bg: #293547;
@@ -39,7 +40,9 @@ body {
 
     // hourly
     --info-bg: rgb(0 0 0 / 32%);
-    --hourly-item-sub-color: rgb(172 172 172);
+    --info-item-sub-color: rgb(172 172 172);
+    --info-item-bg: #5e5e5e;
+    --info-item-border-color: #878787;
   }
 
   font-family: 'Noto Sans SC', sans-serif;

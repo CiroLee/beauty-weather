@@ -93,6 +93,33 @@ export interface IAirQuality {
   o3: string;
 }
 
+export type IndicesType =
+  | '0'
+  | '1'
+  | '2'
+  | '3'
+  | '4'
+  | '5'
+  | '6'
+  | '7'
+  | '8'
+  | '9'
+  | '10'
+  | '11'
+  | '12'
+  | '13'
+  | '14'
+  | '15'
+  | '16';
+export interface IDailyIndices {
+  date: string; // 预报日期
+  type: string; // 生活指数类型ID
+  name: string; // 生活指数类型名称
+  level: string; // 生活指数预报等级
+  category: string; // 生活指数预报级别名称
+  text?: string; // 生活指数详细描述
+}
+
 interface ISourceRefer {
   sources?: string[];
   license?: string[];
@@ -125,4 +152,9 @@ export interface IAirQualityRes {
   now: IAirQuality;
   station?: (IAirQuality & { id: string })[];
   refer: ISourceRefer;
+}
+
+export interface IWeatherIndicesRes {
+  daily: IDailyIndices[];
+  reffer: ISourceRefer;
 }

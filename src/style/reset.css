@@ -37,7 +37,8 @@ h6 {
   font-weight: normal;
 }
 
-ul {
+ul,
+li {
   list-style: none;
 }
 

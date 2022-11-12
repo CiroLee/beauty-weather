@@ -1,0 +1,52 @@
+.forcast-list {
+  margin: 20px 18px;
+  border-radius: 6px;
+  padding: 12px;
+  background-color: var(--info-bg);
+  &__item {
+    display: flex;
+    height: 58px;
+    align-items: center;
+    background-color: var(--info-item-bg);
+    border-radius: 4px;
+
+    // border: 1px solid var(--info-item-border-color);
+    padding: 0 14px;
+    &:not(:last-child) {
+      margin-bottom: 8px;
+    }
+    :global(.icon) {
+      margin: 0 16px;
+    }
+  }
+  &__item-date {
+    font-size: 14px;
+    & > p:nth-child(2) {
+      color: var(--info-item-sub-color);
+      font-size: 10px;
+      text-align: center;
+    }
+  }
+  &__item-temp {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    span {
+      font-size: 12px;
+    }
+    &-bar {
+      height: 3px;
+      border-radius: 3px;
+      flex: 1;
+      margin: 0 12px;
+      background:
+        linear-gradient(
+          90deg,
+          rgb(57 164 230 / 100%) 18.28%,
+          rgb(247 211 92 / 100%) 55.23%,
+          rgb(250 92 25 / 85%) 100%
+        );
+      background-repeat: no-repeat;
+    }
+  }
+}

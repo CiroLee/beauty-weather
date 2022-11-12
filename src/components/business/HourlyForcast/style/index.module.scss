@@ -10,8 +10,7 @@
 }
 
 .hourly-item {
-  width: 54px;
-  height: 80px;
+  width: 56px;
   background-color: var(--info-bg);
   border-radius: 6px;
   margin-right: 18px;
@@ -26,13 +25,15 @@
     margin-bottom: 3px;
   }
   &__temp {
-    // color: #fff;
     font-weight: bold;
     font-size: 12px;
     margin: 2px 0;
   }
   &__sub {
     font-size: 8px;
-    color: var(--hourly-item-sub-color);
+    color: var(--info-item-sub-color);
+    &.rain {
+      color: #4ea9ff;
+    }
   }
 }

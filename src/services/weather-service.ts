@@ -2,7 +2,14 @@ import request from '@/utils/request';
 import Loading from '@/components/Loading';
 import Message from '@/components/Message';
 import { ERROR_CODE } from '@/utils/constants';
-import type { IWeatherNowRes, IWeatherForcastRes, IWeatherHourlyRes, IAirQualityRes } from '@/types/weather';
+import type {
+  IWeatherNowRes,
+  IWeatherForcastRes,
+  IWeatherHourlyRes,
+  IAirQualityRes,
+  IWeatherIndicesRes,
+  IndicesType,
+} from '@/types/weather';
 
 const loading = new Loading();
 const message = new Message();
@@ -94,6 +101,34 @@ export const getAirQualityNow = async (location: string): Promise<[IAirQualityRe
     return [result.data, true];
   } catch (error) {
     console.error(error);
+    return [undefined, false];
+  } finally {
+    loading.stop();
+  }
+};
+
+export const getWeatherIndices = async (
+  location: string,
+  type?: IndicesType[],
+): Promise<[IWeatherIndicesRes | undefined, boolean]> => {
+  try {
+    loading.start();
+    const result = await request<IWeatherIndicesRes>({
+      url: '/api/tools/weather/indices-daily',
+      method: 'POST',
+      data: {
+        day: 1,
+        type: type ?? ['0'],
+        location,
+      },
+    });
+    if (result.code !== ERROR_CODE.success.code) {
+      return [undefined, false];
+    }
+    return [result.data, true];
+  } catch (error) {
+    console.error(error);
+
     return [undefined, false];
   } finally {
     loading.stop();

@@ -1,9 +1,11 @@
-import { FC, useState, useMemo } from 'react';
+import { FC, useState } from 'react';
 import { useAsync } from 'react-use';
 import Icon from '@/components/Icon';
 import HourlyForcast from '@/components/business/HourlyForcast';
 import BriefWeather from '@/components/business/BriefWeather';
 import { BodyTempPanel, HumidityPanel, SunsetPanel, AirQualityPanel } from '@/components/business/InfoPanel';
+import ForcastList from '@/components/business/ForcastList';
+import IndicesPanel from '@/components/business/IndicesPanel';
 import style from './style/index.module.scss';
 import classNames from 'classnames/bind';
 import { useWeatherNowStore, useCityStore, useForcastStore, useAirQualityNow } from '@/store/weather';
@@ -29,31 +31,13 @@ const Home: FC = () => {
       <BriefWeather />
       <HourlyForcast className={cx('home__hourly')} options={hourly} />
       <div className={cx('home__info-panels')}>
-        {useMemo(
-          () => (
-            <BodyTempPanel value={now?.feelsLike} />
-          ),
-          [now?.feelsLike],
-        )}
-        {useMemo(
-          () => (
-            <HumidityPanel value={now?.humidity} />
-          ),
-          [now?.humidity],
-        )}
-        {useMemo(
-          () => (
-            <SunsetPanel sunrize={daily[0]?.sunrise} sunset={daily[0]?.sunset} />
-          ),
-          [daily[0]?.sunrise, daily[0]?.sunset],
-        )}
-        {useMemo(
-          () => (
-            <AirQualityPanel value={qualityNow?.aqi} category={qualityNow?.category} />
-          ),
-          [qualityNow?.aqi, qualityNow?.category],
-        )}
+        <BodyTempPanel value={now?.feelsLike} />
+        <HumidityPanel value={now?.humidity} />
+        <SunsetPanel sunrize={daily[0]?.sunrise} sunset={daily[0]?.sunset} />
+        <AirQualityPanel value={qualityNow?.aqi} category={qualityNow?.category} />
       </div>
+      <ForcastList options={daily} />
+      <IndicesPanel />
     </div>
   );
 };

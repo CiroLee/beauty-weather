@@ -8,6 +8,7 @@ interface HourlyOption {
   icon: string;
   text: string;
   temp: string;
+  pop?: string;
   fxTime: string; // 预报时间
 }
 interface HourlyForcastOptions {
@@ -18,7 +19,11 @@ const HourlyItem: FC<HourlyOption> = (props: HourlyOption) => {
   return (
     <div className={cx('hourly-item')}>
       <Icon className={cx('hourly-item__icon')} type="qi" name={`${props.icon}-fill`} color="#fff" size="20px" />
-      <p className={cx('hourly-item__sub')}>{props.text}</p>
+      {props.icon.startsWith('3') ? (
+        <p className={cx('hourly-item__sub', 'rain')}>{props.pop}%</p>
+      ) : (
+        <p className={cx('hourly-item__sub')}>{props.text}</p>
+      )}
       <p className={cx('hourly-item__temp', 'num-font')}>{props.temp}°C</p>
       <p className={cx('hourly-item__sub', 'num-font')}>{new Date(props.fxTime).getHours()}:00</p>
     </div>
@@ -28,7 +33,14 @@ const HourlyForcast: FC<HourlyForcastOptions> = (props: HourlyForcastOptions) =>
   return (
     <div className={cx('hourly', props.className)}>
       {props.options.map((item) => (
-        <HourlyItem icon={item.icon} text={item.text} temp={item.temp} fxTime={item.fxTime} key={item.fxTime} />
+        <HourlyItem
+          icon={item.icon}
+          text={item.text}
+          temp={item.temp}
+          pop={item.pop}
+          fxTime={item.fxTime}
+          key={item.fxTime}
+        />
       ))}
     </div>
   );
