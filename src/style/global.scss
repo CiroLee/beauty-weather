@@ -1,5 +1,9 @@
 @import 'https://fonts.googleapis.com/css2?family=Barlow&display=swap';
 
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
 .num-font {
   font-family: Barlow, sans-serif;
 }

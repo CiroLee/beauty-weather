@@ -23,13 +23,9 @@ export interface ILocation {
   lon: string; // 纬度
   adm2: string; // 地区/城市的上级行政区划名称
   adm1: string; // 地区/城市所属一级行政区域
-  country: string;
-  tz: string;
-  otcOffset: string;
   isDst: '0' | '1'; // 是否是夏令时 1表示是夏令时 0 表示不是夏令时
   type: string;
   rank: string;
-  fxLink: string;
 }
 
 // 天气预报

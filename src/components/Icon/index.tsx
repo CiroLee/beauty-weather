@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import React, { FC } from 'react';
 import cn from 'classnames';
 import './style/index.scss';
 interface IConProps {
@@ -9,6 +9,7 @@ interface IConProps {
   gradient?: string;
   style?: React.CSSProperties;
   className?: string;
+  onClick?: React.MouseEventHandler<HTMLElement>;
 }
 const Icon: FC<IConProps> = (props: IConProps) => {
   const size = props.size ?? 'inherit';
@@ -20,8 +21,14 @@ const Icon: FC<IConProps> = (props: IConProps) => {
     '--icon-gradient': props.gradient ? props.gradient : '',
     ..._style,
   } as React.CSSProperties;
+  const handleOnClick = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    if (props.onClick) {
+      (props.onClick as React.MouseEventHandler<HTMLElement>)?.(event);
+    }
+  };
   return (
     <i
+      onClick={handleOnClick}
       style={styleVars}
       className={cn('icon', props.className, `${props.type}-${props.name}`, {
         'use-gradient': !!props.gradient,

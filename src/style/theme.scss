@@ -22,6 +22,8 @@ body {
   --info-item-sub-color: rgb(0 0 0 / 36%);
   --info-item-bg: #fcfcfc;
   --info-item-border-color: #e7e7e7;
+  --search-list-item-border-color: #e8e8e8;
+  --search-icon-color: #313131;
   &.dark {
     --color: #fff;
     --bg-color: #494c51;
@@ -43,6 +45,8 @@ body {
     --info-item-sub-color: rgb(172 172 172);
     --info-item-bg: #5e5e5e;
     --info-item-border-color: #878787;
+    --search-list-item-border-color: #707070;
+    --search-icon-color: #939393;
   }
 
   font-family: 'Noto Sans SC', sans-serif;

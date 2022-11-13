@@ -9,10 +9,30 @@ import type {
   IAirQualityRes,
   IWeatherIndicesRes,
   IndicesType,
+  ILocation,
 } from '@/types/weather';
 
 const loading = new Loading();
 const message = new Message();
+
+export const searchCity = async (location: string, num = 20): Promise<[ILocation[] | undefined, boolean]> => {
+  try {
+    const result = await request<ILocation[]>({
+      url: '/api/tools/weather/city',
+      method: 'POST',
+      data: {
+        location,
+        number: num,
+      },
+    });
+    return [result.data, true];
+  } catch (error) {
+    console.error(error);
+    return [undefined, false];
+  } finally {
+    loading.stop();
+  }
+};
 
 export const getWeatherNow = async (location: string): Promise<[IWeatherNowRes | undefined, boolean]> => {
   try {
@@ -30,6 +50,8 @@ export const getWeatherNow = async (location: string): Promise<[IWeatherNowRes |
     }
     return [result.data, true];
   } catch (error) {
+    console.error(error);
+
     return [undefined, false];
   } finally {
     loading.stop();

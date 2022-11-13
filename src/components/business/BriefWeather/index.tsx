@@ -5,7 +5,7 @@ import classNames from 'classnames/bind';
 import style from './style/index.module.scss';
 const cx = classNames.bind(style);
 import Icon from '../../Icon';
-const BriefWeather: FC = () => {
+export const BriefWeather: FC = () => {
   const { locationName } = useCityStore((state) => state);
   const { daily } = useForcastStore((state) => state);
   const { now } = useWeatherNowStore((state) => state);
@@ -36,5 +36,3 @@ const BriefWeather: FC = () => {
     </div>
   );
 };
-
-export default BriefWeather;
