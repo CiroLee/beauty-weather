@@ -4,7 +4,7 @@ import Message from '@/components/Message';
 import { ERROR_CODE } from '@/utils/constants';
 import type {
   IWeatherNowRes,
-  IWeatherForcastRes,
+  IWeatherForecastRes,
   IWeatherHourlyRes,
   IAirQualityRes,
   IWeatherIndicesRes,
@@ -58,13 +58,13 @@ export const getWeatherNow = async (location: string): Promise<[IWeatherNowRes |
   }
 };
 // 逐日天气预报
-export const getWeatherForcast = async (
+export const getWeatherForecast = async (
   location: string,
   day: number,
-): Promise<[IWeatherForcastRes | undefined, boolean]> => {
+): Promise<[IWeatherForecastRes | undefined, boolean]> => {
   loading.start();
   try {
-    const result = await request<IWeatherForcastRes>({
+    const result = await request<IWeatherForecastRes>({
       url: '/api/tools/weather/forecast-day',
       method: 'POST',
       data: {

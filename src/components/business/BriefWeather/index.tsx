@@ -6,7 +6,7 @@ import style from './style/index.module.scss';
 const cx = classNames.bind(style);
 import Icon from '../../Icon';
 export const BriefWeather: FC = () => {
-  const { locationName } = useCityStore((state) => state);
+  const { name: locationName } = useCityStore((state) => state.current());
   const { daily } = useForcastStore((state) => state);
   const { now } = useWeatherNowStore((state) => state);
   const [bg, setBg] = useState<string | null>(null);

@@ -11,7 +11,7 @@ import { useMedia } from 'react-use';
 import { Outlet } from 'react-router-dom';
 const Layout: FC = () => {
   const isDark = useMedia('(prefers-color-scheme: dark)');
-  const { locationId } = useCityStore((state) => state);
+  const { location: locationId } = useCityStore((state) => state.current());
   const { getNow } = useWeatherNowStore((state) => state);
   const { daily, getForcast } = useForcastStore((state) => state);
   const { getAirQualityNow } = useAirQualityNow((state) => state);

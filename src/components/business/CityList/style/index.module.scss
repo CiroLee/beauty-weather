@@ -1,0 +1,49 @@
+@import '../../../style/commom';
+
+.city-list {
+  padding: 0 16px;
+}
+
+.city-item {
+  height: 80px;
+  position: relative;
+  overflow: hidden;
+  &:not(:last-child) {
+    margin-bottom: 12px;
+  }
+
+  white-space: nowrap;
+}
+
+.city-item__main {
+  display: inline-flex;
+  width: 100%;
+  height: 100%;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 16px;
+  background-repeat: no-repeat;
+  background-position: top right;
+  background-size: 60% auto;
+  border-radius: 6px;
+  background-color: var(--brief-weather-color);
+  &--brief {
+    text-align: center;
+    p {
+      font-size: 10px;
+    }
+  }
+}
+
+.city-item__delete {
+  width: 70px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  font-size: 16px;
+  vertical-align: top;
+  margin-left: 16px;
+  background-color: #fc4c4c;
+  border-radius: 6px;
+}

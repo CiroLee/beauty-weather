@@ -5,11 +5,11 @@ import classNames from 'classnames/bind';
 import { isSameDay } from 'date-fns';
 import { week } from 'mew-utils';
 import style from './style/index.module.scss';
-import { IWeatherForcast } from '@/types/weather';
+import { IWeatherForecast } from '@/types/weather';
 const cx = classNames.bind(style);
 
 interface IForcastProps {
-  options: IWeatherForcast[];
+  options: IWeatherForecast[];
 }
 const ForcastList: FC<IForcastProps> = (props: IForcastProps) => {
   const { isDayTime } = useDayTimeStore((state) => state);
@@ -22,10 +22,10 @@ const ForcastList: FC<IForcastProps> = (props: IForcastProps) => {
   }
 
   return (
-    <div className={cx('forcast-list')}>
+    <div className={cx('forecast-list')}>
       {props.options.map((item) => (
-        <li key={item.fxDate} className={cx('forcast-list__item')}>
-          <div className={cx('forcast-list__item-date')}>
+        <li key={item.fxDate} className={cx('forecast-list__item')}>
+          <div className={cx('forecast-list__item-date')}>
             <p> {getWeek(item.fxDate)}</p>
             <p>{item.fxDate.slice(5)}</p>
           </div>
@@ -35,9 +35,9 @@ const ForcastList: FC<IForcastProps> = (props: IForcastProps) => {
             size="24px"
             color="#1a8cff"
           />
-          <div className={cx('forcast-list__item-temp')}>
+          <div className={cx('forecast-list__item-temp')}>
             <span>{item.tempMin}°C</span>
-            <div className={cx('forcast-list__item-temp-bar')}></div>
+            <div className={cx('forecast-list__item-temp-bar')}></div>
             <span>{item.tempMax}°C</span>
           </div>
         </li>

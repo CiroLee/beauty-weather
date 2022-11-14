@@ -1,4 +1,5 @@
 import React, { FC, useState } from 'react';
+import CityList from '@/components/business/CityList';
 import { useNavigate } from 'react-router-dom';
 import Icon from '@/components/Icon';
 import { searchCity } from '@/services/weather-service';
@@ -72,6 +73,7 @@ const List: FC = () => {
           </div>
         ) : null}
       </ul>
+      <>{!isEmpty && !list.length ? <CityList /> : null}</>
     </div>
   );
 };

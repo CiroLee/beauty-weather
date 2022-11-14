@@ -15,7 +15,7 @@ import style from './style/index.module.scss';
 const cx = classNames.bind(style);
 const Home: FC = () => {
   const [hourly, setHourly] = useState<IWeatherHourly[]>([]);
-  const { locationId } = useCityStore((state) => state);
+  const { location: locationId } = useCityStore((state) => state.current());
   const { now } = useWeatherNowStore((state) => state);
   const { daily } = useForcastStore((state) => state);
   const { now: qualityNow } = useAirQualityNow((state) => state);

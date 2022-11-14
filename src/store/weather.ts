@@ -1,31 +1,51 @@
 import create from 'zustand';
 import { persist } from 'zustand/middleware';
-import { getWeatherNow, getWeatherForcast, getAirQualityNow, getWeatherIndices } from '@/services/weather-service';
-import { IAirQuality, IDailyIndices, IndicesType, IWeatherForcast, IWeatherNow } from '@/types/weather';
+import { getWeatherNow, getWeatherForecast, getAirQualityNow, getWeatherIndices } from '@/services/weather-service';
+import { IAirQuality, IDailyIndices, IndicesType, IWeatherForecast, IWeatherNow } from '@/types/weather';
 
 // 当前使用的城市信息
 interface CityState {
-  locationId: string;
-  locationName: string;
-  setCity: (locationId: string, locationName: string) => void;
+  locations: {
+    location: string;
+    name: string;
+  }[];
+  current: () => { location: string; name: string };
+  addLocation: (id: string, name: string) => void;
+  removeLocation: (id: string) => void;
 }
 
 export const useCityStore = create<CityState>()(
   persist(
-    (set) => {
+    (set, get) => {
       return {
-        locationId: '101010100',
-        locationName: '北京',
-        // 使用查询城市接口后设置
-        setCity: (locationId: string, locationName: string) =>
-          set(() => ({
-            locationId,
-            locationName,
-          })),
+        locations: [
+          { location: '101280605', name: '宝安' },
+          { location: '101010100', name: '北京' },
+        ],
+        current: () => ({
+          location: get().locations[0].location,
+          name: get().locations[0].name,
+        }),
+        addLocation: (location: string, name: string) => {
+          set((state) => {
+            state.locations.push({ location, name });
+            return {
+              locations: state.locations,
+            };
+          });
+        },
+        removeLocation: (location: string) => {
+          set((state) => {
+            const locations = state.locations.filter((item) => item.location !== location);
+            return {
+              locations,
+            };
+          });
+        },
       };
     },
     {
-      name: 'city',
+      name: 'cities',
     },
   ),
 );
@@ -74,7 +94,7 @@ export const useWeatherNowStore = create<NowState>()((set) => {
 // 未来天气预报
 type days = 3 | 7 | 15;
 interface IForcastState {
-  daily: IWeatherForcast[];
+  daily: IWeatherForecast[];
   getForcast: (location: string, day: days) => void;
 }
 
@@ -82,7 +102,7 @@ export const useForcastStore = create<IForcastState>()((set) => {
   return {
     daily: [],
     getForcast: async (location: string, day: days) => {
-      const [result, ok] = await getWeatherForcast(location, day);
+      const [result, ok] = await getWeatherForecast(location, day);
       if (ok) {
         set(() => ({
           daily: result?.daily,

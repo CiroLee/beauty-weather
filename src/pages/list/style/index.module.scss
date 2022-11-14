@@ -1,8 +1,5 @@
 .list {
   overflow: hidden;
-  :global(.icon) {
-    color: var(--search-icon-color);
-  }
   &__search {
     height: 56px;
     color: var(--color);
@@ -12,8 +9,11 @@
     position: fixed;
     width: 100%;
     top: 0;
-    background-color: rgb(255 255 255 / 3%);
+    background-color: var(--search-bg);
     backdrop-filter: blur(4px);
+    :global(.icon) {
+      color: var(--search-icon-color);
+    }
     &-input {
       flex: 1;
       margin: 0 10px;
@@ -42,6 +42,9 @@
   &__search-result {
     margin-top: 56px;
     padding: 0 16px;
+    :global(.icon) {
+      color: var(--search-icon-color);
+    }
     li {
       height: 50px;
       display: flex;

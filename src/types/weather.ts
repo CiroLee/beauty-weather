@@ -29,7 +29,7 @@ export interface ILocation {
 }
 
 // 天气预报
-export interface IWeatherForcast {
+export interface IWeatherForecast {
   fxDate: string; // 预报日期
   sunrise: string;
   sunset: string;
@@ -129,28 +129,33 @@ export interface ISerchCityReq {
 }
 
 export interface IWeatherNowRes {
+  location: string;
   now: IWeatherNow;
   updateTime: string;
   reffer: ISourceRefer;
 }
 
-export interface IWeatherForcastRes {
-  daily: IWeatherForcast[];
+export interface IWeatherForecastRes {
+  location: string;
+  daily: IWeatherForecast[];
   reffer: ISourceRefer;
 }
 
 export interface IWeatherHourlyRes {
+  location: string;
   hourly: IWeatherHourly[];
   reffer: ISourceRefer;
 }
 
 export interface IAirQualityRes {
+  location: string;
   now: IAirQuality;
   station?: (IAirQuality & { id: string })[];
   refer: ISourceRefer;
 }
 
 export interface IWeatherIndicesRes {
+  location: string;
   daily: IDailyIndices[];
   reffer: ISourceRefer;
 }

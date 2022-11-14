@@ -1,3 +1,5 @@
+@import '../../../style/commom';
+
 .brief-weather {
   height: 400px;
   background-color: var(--brief-weather-color);
@@ -5,19 +7,6 @@
   background-position: center;
   background-size: cover;
   overflow: hidden;
-  &.bg-1xx {
-    background-image: url('@/assets/img/brief-1xx.png');
-  }
-  &.bg-3xx {
-    background-image: url('@/assets/img/brief-3xx.png');
-  }
-  &.bg-4xx {
-    background-image: url('@/assets/img/brief-4xx.png');
-  }
-  &.bg-5xx {
-    background-color: var(--brief-weather-mist-color);
-    background-image: url('@/assets/img/brief-5xx.png');
-  }
   &--location {
     font-size: 32px;
   }
