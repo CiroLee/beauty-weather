@@ -33,5 +33,10 @@ export default defineConfig({
         }),
       ],
     },
+    preprocessorOptions: {
+      scss: {
+        additionalData: `@import "./src/style/mixins.scss";`,
+      },
+    },
   },
 });

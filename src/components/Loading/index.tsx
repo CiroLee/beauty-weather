@@ -22,6 +22,7 @@ class Loading {
   private dom: HTMLElement | null = null;
   private vDOM: ReactDOM.Root | null = null;
   private loadingRef = React.createRef<HTMLDivElement>();
+
   start(text?: string) {
     if (this.dom) return;
     // 背景层固定不滚动
@@ -33,6 +34,7 @@ class Loading {
     this.vDOM = ReactDOM.createRoot(this.dom);
     this.vDOM.render(<LoadingCom text={txt} ref={this.loadingRef} />);
   }
+
   stop() {
     this.loadingRef.current?.classList.add('out');
     this.loadingRef.current?.addEventListener('transitionend', () => {

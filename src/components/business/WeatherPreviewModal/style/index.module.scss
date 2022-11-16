@@ -1,0 +1,96 @@
+@import '../../../style/commom';
+
+.preview-modal {
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  background-color: var(--mask-bg);
+  backdrop-filter: blur(2px);
+  display: flex;
+  justify-content: center;
+}
+
+.preview-modal__content {
+  margin-top: 45%;
+  width: 80%;
+  position: relative;
+}
+
+.preview-modal__inner {
+  width: 100%;
+  height: 220px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--brief-weather-color);
+  border-radius: 6px;
+  box-shadow: 0 8px 24px -14px rgb(0 0 0 / 26%);
+  animation: pop-in 0.2s ease-in;
+  position: relative;
+  background-size: 100% auto;
+  background-position: top right;
+  background-repeat: no-repeat;
+}
+
+.preview-modal__info {
+  height: 100%;
+  flex-direction: column;
+
+  @include flex-center;
+}
+
+.preview-modal__city {
+  padding: 8px 12px 0;
+  color: #fff;
+}
+
+.preview-modal__temp {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #fff;
+}
+
+.preview-modal__operate-btn {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 12px;
+}
+
+.button {
+  height: 26px;
+  padding: 0 6px;
+  border-radius: 3px;
+  color: #fff;
+
+  @include flex-center;
+
+  font-size: 12px;
+  &.add {
+    background-color: #1cc97b;
+    border: 1px solid #1ba667;
+  }
+  &.close {
+    background-color: #ff7354;
+    border: 1px solid #e3674b;
+    margin-left: 6px;
+  }
+  span {
+    margin-top: -1px;
+  }
+}
+
+@keyframes pop-in {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  80% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

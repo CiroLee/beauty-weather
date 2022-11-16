@@ -6,9 +6,13 @@ import { searchCity } from '@/services/weather-service';
 import classNames from 'classnames/bind';
 import style from './style/index.module.scss';
 import { ILocation } from '@/types/weather';
+import WeatherPreviewModal from '@/components/business/WeatherPreviewModal';
+
 const cx = classNames.bind(style);
 const List: FC = () => {
   const [value, setValue] = useState('');
+  const [showPreviewModal, togglePreview] = useState(false);
+  const [selectedCity, setSelectedCity] = useState({ name: '', location: '' });
   const [isEmpty, setEmpty] = useState(false);
   const [list, setList] = useState<ILocation[]>([]);
   const navigate = useNavigate();
@@ -32,10 +36,19 @@ const List: FC = () => {
       }
     }
   };
+  // 按下enter搜索
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key.toLowerCase() === 'enter' && value) {
       handleSearch();
     }
+  };
+
+  const chooseCity = (item: ILocation) => {
+    setSelectedCity({
+      name: item.name,
+      location: item.id,
+    });
+    togglePreview(true);
   };
 
   return (
@@ -64,7 +77,7 @@ const List: FC = () => {
       </div>
       <ul className={cx('list__search-result')}>
         {list.map((item) => (
-          <li key={item.id}>{`${item.adm2} ${item.adm1} ${item.name}`}</li>
+          <li key={item.id} onClick={() => chooseCity(item)}>{`${item.adm2} ${item.adm1} ${item.name}`}</li>
         ))}
         {isEmpty ? (
           <div className={cx('list__empty')}>
@@ -74,6 +87,7 @@ const List: FC = () => {
         ) : null}
       </ul>
       <>{!isEmpty && !list.length ? <CityList /> : null}</>
+      {showPreviewModal ? <WeatherPreviewModal {...selectedCity} onShow={togglePreview} /> : null}
     </div>
   );
 };

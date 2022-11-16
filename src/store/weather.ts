@@ -1,6 +1,6 @@
 import create from 'zustand';
 import { persist } from 'zustand/middleware';
-import { getWeatherNow, getWeatherForecast, getAirQualityNow, getWeatherIndices } from '@/services/weather-service';
+import { getAirQualityNow, getWeatherForecast, getWeatherIndices, getWeatherNow } from '@/services/weather-service';
 import { IAirQuality, IDailyIndices, IndicesType, IWeatherForecast, IWeatherNow } from '@/types/weather';
 
 // 当前使用的城市信息
@@ -28,6 +28,7 @@ export const useCityStore = create<CityState>()(
         }),
         addLocation: (location: string, name: string) => {
           set((state) => {
+            if (get().locations.find((item) => item.location === location)) return { ...state };
             state.locations.push({ location, name });
             return {
               locations: state.locations,
