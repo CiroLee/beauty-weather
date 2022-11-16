@@ -2,16 +2,17 @@ import { FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAsync } from 'react-use';
 import Icon from '@/components/Icon';
-import HourlyForcast from '@/components/business/HourlyForcast';
+import HourlyForecast from '@/components/business/HourlyForecast';
 import { BriefWeather } from '@/components/business/BriefWeather';
-import { BodyTempPanel, HumidityPanel, SunsetPanel, AirQualityPanel } from '@/components/business/InfoPanel';
-import ForcastList from '@/components/business/ForcastList';
+import { AirQualityPanel, BodyTempPanel, HumidityPanel, SunsetPanel } from '@/components/business/InfoPanel';
+import ForecastList from '@/components/business/ForecastList';
 import IndicesPanel from '@/components/business/IndicesPanel';
-import { useWeatherNowStore, useCityStore, useForcastStore, useAirQualityNow } from '@/store/weather';
+import { useAirQualityNow, useCityStore, useForcastStore, useWeatherNowStore } from '@/store/weather';
 import { getWeatherForcastHourly } from '@/services/weather-service';
 import { IWeatherHourly } from '@/types/weather';
 import classNames from 'classnames/bind';
 import style from './style/index.module.scss';
+
 const cx = classNames.bind(style);
 const Home: FC = () => {
   const [hourly, setHourly] = useState<IWeatherHourly[]>([]);
@@ -38,14 +39,14 @@ const Home: FC = () => {
         onClick={() => navigate('/list')}
       />
       <BriefWeather />
-      <HourlyForcast className={cx('home__hourly')} options={hourly} />
+      <HourlyForecast className={cx('home__hourly')} options={hourly} />
       <div className={cx('home__info-panels')}>
         <BodyTempPanel value={now?.feelsLike} />
         <HumidityPanel value={now?.humidity} />
         <SunsetPanel sunrize={daily[0]?.sunrise} sunset={daily[0]?.sunset} />
         <AirQualityPanel value={qualityNow?.aqi} category={qualityNow?.category} />
       </div>
-      <ForcastList options={daily} />
+      <ForecastList options={daily} />
       <IndicesPanel />
     </div>
   );

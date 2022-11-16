@@ -2,6 +2,7 @@ import { FC } from 'react';
 import Icon from '@/components/Icon';
 import classNames from 'classnames/bind';
 import style from './style/index.module.scss';
+
 const cx = classNames.bind(style);
 
 interface HourlyOption {
@@ -11,7 +12,7 @@ interface HourlyOption {
   pop?: string;
   fxTime: string; // 预报时间
 }
-interface HourlyForcastOptions {
+interface HourlyForecastOptions {
   options: HourlyOption[];
   className?: string;
 }
@@ -29,7 +30,7 @@ const HourlyItem: FC<HourlyOption> = (props: HourlyOption) => {
     </div>
   );
 };
-const HourlyForcast: FC<HourlyForcastOptions> = (props: HourlyForcastOptions) => {
+const HourlyForecast: FC<HourlyForecastOptions> = (props: HourlyForecastOptions) => {
   return (
     <div className={cx('hourly', props.className)}>
       {props.options.map((item) => (
@@ -46,4 +47,4 @@ const HourlyForcast: FC<HourlyForcastOptions> = (props: HourlyForcastOptions) =>
   );
 };
 
-export default HourlyForcast;
+export default HourlyForecast;

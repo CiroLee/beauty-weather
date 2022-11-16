@@ -1,45 +1,40 @@
 import React, { FC, useEffect, useState } from 'react';
+import { useLongPress } from 'react-use';
 import { getWeatherForecast } from '@/services/weather-service';
+import Icon from '@/components/Icon';
 import { useCityStore, useDayTimeStore } from '@/store/weather';
 import { IWeatherForecast } from '@/types/weather';
 import { iconToBgMap } from '@/config/weather.config';
 import style from './style/index.module.scss';
 import classNames from 'classnames/bind';
-import Icon from '@/components/Icon';
+
 const cx = classNames.bind(style);
 
 interface CityItemProps {
+  location: string;
   name: string;
   icon?: string;
   tempMin?: string;
   tempMax?: string;
 }
-interface Pointer {
-  x: number;
-  y: number;
-}
+
+const longPressOptions = {
+  isPreventDefault: true,
+  delay: 300,
+};
 const CityItem: FC<CityItemProps> = (props: CityItemProps) => {
   const [bg, setBg] = useState<string | null>(null);
-  const [{ x: startX, y: startY }, setStartPos] = useState<Pointer>({ x: 0, y: 0 });
   const transIconCode = (icon?: string): void => {
     const item = iconToBgMap.find((item) => Number(icon) >= item.range[0] && Number(icon) <= item.range[1]);
     if (item) {
       setBg(`bg-${item?.text}`);
     }
   };
-
-  const handleOnTouchStart = (event: React.TouchEvent) => {
-    // console.log(event);
-    setStartPos({
-      x: event.touches[0].clientX,
-      y: event.touches[0].clientY,
-    });
+  const longPressHandler = (event: TouchEvent | MouseEvent) => {
+    console.log((event.target as HTMLDivElement).dataset);
+    // console.log((event.target);
   };
-  const handleOnTouchMove = (event: React.TouchEvent) => {
-    const endX = event.touches[0].clientX;
-    const endY = event.touches[0].clientY;
-    console.log(startX, startY, endX, endY);
-  };
+  const longPressEvent = useLongPress(longPressHandler, longPressOptions);
 
   useEffect(() => {
     if (props?.icon) {
@@ -47,28 +42,22 @@ const CityItem: FC<CityItemProps> = (props: CityItemProps) => {
     }
   }, [props?.icon]);
   return (
-    <div className={cx('city-item')}>
-      <div
-        className={cx('city-item__main', bg)}
-        onTouchStart={(event) => handleOnTouchStart(event)}
-        onTouchMove={(event) => handleOnTouchMove(event)}>
-        <div className={cx('city-item__main--name')}>{props.name}</div>
-        <div className={cx('city-item__main--brief')}>
-          <Icon type="qi" name={`${props.icon}-fill`} size="30px" color="#fff" />
-          <p>{`${props.tempMin}°C~${props.tempMax}°C`}</p>
-        </div>
-      </div>
-      <div className={cx('city-item__delete')}>
-        <Icon type="ri" name="delete-bin-fill" size="20px" color="#fff" />
+    <div className={cx('city-item', bg)} {...longPressEvent} data-location={props.location}>
+      <div className={cx('city-item__name')}>{props.name}</div>
+      <div className={cx('city-item__brief')}>
+        <Icon type="qi" name={`${props.icon}-fill`} size="30px" color="#fff" />
+        <p>{`${props.tempMin}°C~${props.tempMax}°C`}</p>
       </div>
     </div>
   );
 };
+
 interface IWeatherForecastWithId extends IWeatherForecast {
   location: string;
   name: string;
   icon?: string;
 }
+
 const CityList: FC = () => {
   const [list, setList] = useState<IWeatherForecastWithId[]>([]);
   const { locations } = useCityStore((state) => state);

@@ -6,12 +6,13 @@ import { isSameDay } from 'date-fns';
 import { week } from 'mew-utils';
 import style from './style/index.module.scss';
 import { IWeatherForecast } from '@/types/weather';
+
 const cx = classNames.bind(style);
 
-interface IForcastProps {
+interface IForecastProps {
   options: IWeatherForecast[];
 }
-const ForcastList: FC<IForcastProps> = (props: IForcastProps) => {
+const ForecastList: FC<IForecastProps> = (props: IForecastProps) => {
   const { isDayTime } = useDayTimeStore((state) => state);
   function getWeek(date: string): string {
     const _date = date.replaceAll('-', '/');
@@ -46,4 +47,4 @@ const ForcastList: FC<IForcastProps> = (props: IForcastProps) => {
   );
 };
 
-export default ForcastList;
+export default ForecastList;
