@@ -86,7 +86,7 @@ const List: FC = () => {
           </div>
         ) : null}
       </ul>
-      <>{!isEmpty && !list.length ? <CityList /> : null}</>
+      <div className={cx('list__locals')}>{!isEmpty && !list.length ? <CityList /> : null}</div>
       {showPreviewModal ? <WeatherPreviewModal {...selectedCity} onShow={togglePreview} /> : null}
     </div>
   );
