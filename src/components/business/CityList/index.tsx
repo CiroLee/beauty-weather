@@ -22,10 +22,7 @@ interface IWeatherForecastWithId extends IWeatherForecast {
   name: string;
   icon?: string;
 }
-const longPressOptions = {
-  isPreventDefault: true,
-  delay: 300,
-};
+
 const CityList: FC<Pick<CityItemProps, 'onClick'>> = (props: Pick<CityItemProps, 'onClick'>) => {
   const [list, setList] = useState<IWeatherForecastWithId[]>([]);
   const { locations } = useCityStore((state) => state);
