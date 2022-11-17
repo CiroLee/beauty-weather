@@ -3,20 +3,21 @@ import {
   useAirQualityNow,
   useCityStore,
   useDayTimeStore,
-  useForcastStore,
+  useForecastStore,
+  useWeatherIndicesStore,
   useWeatherNowStore,
-  useWeatherIndices,
 } from '@/store/weather';
 import { useMedia } from 'react-use';
 import { Outlet } from 'react-router-dom';
+
 const Layout: FC = () => {
   const isDark = useMedia('(prefers-color-scheme: dark)');
   const { location: locationId } = useCityStore((state) => state.current());
   const { getNow } = useWeatherNowStore((state) => state);
-  const { daily, getForcast } = useForcastStore((state) => state);
+  const { daily, getForecast } = useForecastStore((state) => state);
   const { getAirQualityNow } = useAirQualityNow((state) => state);
   const { judgeDayTime } = useDayTimeStore((state) => state);
-  const { getIndices } = useWeatherIndices((state) => state);
+  const { getIndices } = useWeatherIndicesStore((state) => state);
   useEffect(() => {
     if (isDark) {
       document.body.classList.add('dark');
@@ -26,7 +27,7 @@ const Layout: FC = () => {
   }, [isDark]);
   useEffect(() => {
     getNow(locationId);
-    getForcast(locationId, 7);
+    getForecast(locationId, 7);
     getAirQualityNow(locationId);
     getIndices(locationId, ['0']);
   }, []);

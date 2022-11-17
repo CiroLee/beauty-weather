@@ -1,13 +1,14 @@
-import { FC, useState, useEffect } from 'react';
-import { useCityStore, useWeatherNowStore, useForcastStore } from '@/store/weather';
+import { FC, useEffect, useState } from 'react';
+import { useCityStore, useForecastStore, useWeatherNowStore } from '@/store/weather';
 import { iconToBgMap } from '@/config/weather.config';
 import classNames from 'classnames/bind';
 import style from './style/index.module.scss';
-const cx = classNames.bind(style);
 import Icon from '../../Icon';
+
+const cx = classNames.bind(style);
 export const BriefWeather: FC = () => {
   const { name: locationName } = useCityStore((state) => state.current());
-  const { daily } = useForcastStore((state) => state);
+  const { daily } = useForecastStore((state) => state);
   const { now } = useWeatherNowStore((state) => state);
   const [bg, setBg] = useState<string | null>(null);
   const transIconCode = (icon?: string): void => {

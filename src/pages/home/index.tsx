@@ -7,7 +7,7 @@ import { BriefWeather } from '@/components/business/BriefWeather';
 import { AirQualityPanel, BodyTempPanel, HumidityPanel, SunsetPanel } from '@/components/business/InfoPanel';
 import ForecastList from '@/components/business/ForecastList';
 import IndicesPanel from '@/components/business/IndicesPanel';
-import { useAirQualityNow, useCityStore, useForcastStore, useWeatherNowStore } from '@/store/weather';
+import { useAirQualityNow, useCityStore, useForecastStore, useWeatherNowStore } from '@/store/weather';
 import { getWeatherForcastHourly } from '@/services/weather-service';
 import { IWeatherHourly } from '@/types/weather';
 import classNames from 'classnames/bind';
@@ -18,7 +18,7 @@ const Home: FC = () => {
   const [hourly, setHourly] = useState<IWeatherHourly[]>([]);
   const { location: locationId } = useCityStore((state) => state.current());
   const { now } = useWeatherNowStore((state) => state);
-  const { daily } = useForcastStore((state) => state);
+  const { daily } = useForecastStore((state) => state);
   const { now: qualityNow } = useAirQualityNow((state) => state);
   const navigate = useNavigate();
   useAsync(async () => {
@@ -27,6 +27,7 @@ const Home: FC = () => {
       setHourly(result?.hourly as IWeatherHourly[]);
     }
   });
+  // console.log('home');
 
   return (
     <div className={cx('home')}>

@@ -3,13 +3,13 @@ import Loading from '@/components/Loading';
 import Message from '@/components/Message';
 import { ERROR_CODE } from '@/utils/constants';
 import type {
-  IWeatherNowRes,
+  IAirQualityRes,
+  ILocation,
+  IndicesType,
   IWeatherForecastRes,
   IWeatherHourlyRes,
-  IAirQualityRes,
   IWeatherIndicesRes,
-  IndicesType,
-  ILocation,
+  IWeatherNowRes,
 } from '@/types/weather';
 
 const loading = new Loading();
@@ -25,6 +25,13 @@ export const searchCity = async (location: string, num = 20): Promise<[ILocation
         number: num,
       },
     });
+    if (result.code !== ERROR_CODE.success.code) {
+      if (result.code === 404) {
+        return [undefined, true];
+      }
+      message.error(result.message || '请求失败');
+      return [undefined, false];
+    }
     return [result.data, true];
   } catch (error) {
     console.error(error);

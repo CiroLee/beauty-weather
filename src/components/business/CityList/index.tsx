@@ -1,5 +1,4 @@
 import React, { FC, useEffect, useState } from 'react';
-import { useLongPress } from 'react-use';
 import { getWeatherForecast } from '@/services/weather-service';
 import Icon from '@/components/Icon';
 import { useCityStore, useDayTimeStore } from '@/store/weather';
@@ -16,52 +15,37 @@ interface CityItemProps {
   icon?: string;
   tempMin?: string;
   tempMax?: string;
+  onClick?: (location: string, name: string) => void;
 }
-
-const longPressOptions = {
-  isPreventDefault: true,
-  delay: 300,
-};
-const CityItem: FC<CityItemProps> = (props: CityItemProps) => {
-  const [bg, setBg] = useState<string | null>(null);
-  const transIconCode = (icon?: string): void => {
-    const item = iconToBgMap.find((item) => Number(icon) >= item.range[0] && Number(icon) <= item.range[1]);
-    if (item) {
-      setBg(`bg-${item?.text}`);
-    }
-  };
-  const longPressHandler = (event: TouchEvent | MouseEvent) => {
-    console.log((event.target as HTMLDivElement).dataset);
-    // console.log((event.target);
-  };
-  const longPressEvent = useLongPress(longPressHandler, longPressOptions);
-
-  useEffect(() => {
-    if (props?.icon) {
-      transIconCode(props.icon);
-    }
-  }, [props?.icon]);
-  return (
-    <div className={cx('city-item', bg)} {...longPressEvent} data-location={props.location}>
-      <div className={cx('city-item__name')}>{props.name}</div>
-      <div className={cx('city-item__brief')}>
-        <Icon type="qi" name={`${props.icon}-fill`} size="30px" color="#fff" />
-        <p>{`${props.tempMin}°C~${props.tempMax}°C`}</p>
-      </div>
-    </div>
-  );
-};
-
 interface IWeatherForecastWithId extends IWeatherForecast {
   location: string;
   name: string;
   icon?: string;
 }
-
-const CityList: FC = () => {
+const longPressOptions = {
+  isPreventDefault: true,
+  delay: 300,
+};
+const CityList: FC<Pick<CityItemProps, 'onClick'>> = (props: Pick<CityItemProps, 'onClick'>) => {
   const [list, setList] = useState<IWeatherForecastWithId[]>([]);
   const { locations } = useCityStore((state) => state);
   const { isDayTime } = useDayTimeStore((state) => state);
+  const transIconCode = (icon?: string): string => {
+    const item = iconToBgMap.find((item) => Number(icon) >= item.range[0] && Number(icon) <= item.range[1]);
+    if (item) {
+      return `bg-${item.text}`;
+    }
+    return '';
+  };
+  // 长按事件
+  const handleOnClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    if (props.onClick) {
+      const dataset = (event.target as HTMLDivElement).dataset;
+      props.onClick(dataset.location as string, dataset.name as string);
+    }
+  };
+
+  // 组件内，读取local的列表，拉取天气信息
   const getForecastByLocations = async () => {
     const result = await Promise.all(
       locations.map((item) => {
@@ -88,7 +72,18 @@ const CityList: FC = () => {
   return (
     <div className={cx('city-list')}>
       {list.map((item) => (
-        <CityItem key={item.location} {...item} />
+        <div
+          key={item.location}
+          className={cx('city-item', transIconCode(item.icon))}
+          onClick={(event) => handleOnClick(event)}
+          data-location={item.location}
+          data-name={item.name}>
+          <div className={cx('city-item__name')}>{item.name}</div>
+          <div className={cx('city-item__brief')}>
+            <Icon type="qi" name={`${item.icon}-fill`} size="30px" color="#fff" />
+            <p>{`${item.tempMin}°C~${item.tempMax}°C`}</p>
+          </div>
+        </div>
       ))}
     </div>
   );

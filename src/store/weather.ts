@@ -52,20 +52,20 @@ export const useCityStore = create<CityState>()(
 );
 interface IDayTimeState {
   isDayTime: boolean;
-  judgeDayTime: (sunrize?: string, sunset?: string) => void;
+  judgeDayTime: (sunrise?: string, sunset?: string) => void;
 }
 export const useDayTimeStore = create<IDayTimeState>()((set) => {
   return {
     isDayTime: true,
-    judgeDayTime: (sunrize?: string, sunset?: string) => {
+    judgeDayTime: (sunrise?: string, sunset?: string) => {
       const currentTime = Date.now();
       const year = new Date().getFullYear();
       const month = new Date().getMonth() + 1;
       const day = new Date().getDate();
-      const sunrizeTime = new Date(`${year}/${month}/${day} ${sunrize}`).getTime();
+      const sunriseTime = new Date(`${year}/${month}/${day} ${sunrise}`).getTime();
       const sunsetTime = new Date(`${year}/${month}/${day} ${sunset}`).getTime();
       set(() => ({
-        isDayTime: currentTime >= sunrizeTime && currentTime <= sunsetTime,
+        isDayTime: currentTime >= sunriseTime && currentTime <= sunsetTime,
       }));
     },
   };
@@ -80,12 +80,12 @@ export const useWeatherNowStore = create<NowState>()((set) => {
   return {
     now: null,
     getNow: async (location: string) => {
-      const [reuslt, ok] = await getWeatherNow(location);
+      const [result, ok] = await getWeatherNow(location);
       if (ok) {
         set((state) => ({
           ...state,
-          now: reuslt?.now,
-          updateTime: reuslt?.updateTime,
+          now: result?.now,
+          updateTime: result?.updateTime,
         }));
       }
     },
@@ -94,15 +94,15 @@ export const useWeatherNowStore = create<NowState>()((set) => {
 
 // 未来天气预报
 type days = 3 | 7 | 15;
-interface IForcastState {
+interface IForecastState {
   daily: IWeatherForecast[];
-  getForcast: (location: string, day: days) => void;
+  getForecast: (location: string, day: days) => void;
 }
 
-export const useForcastStore = create<IForcastState>()((set) => {
+export const useForecastStore = create<IForecastState>()((set) => {
   return {
     daily: [],
-    getForcast: async (location: string, day: days) => {
+    getForecast: async (location: string, day: days) => {
       const [result, ok] = await getWeatherForecast(location, day);
       if (ok) {
         set(() => ({
@@ -138,7 +138,7 @@ interface IWeatherIndicesState {
   indices: IDailyIndices[];
   getIndices: (location: string, type?: IndicesType[]) => void;
 }
-export const useWeatherIndices = create<IWeatherIndicesState>()((set) => {
+export const useWeatherIndicesStore = create<IWeatherIndicesState>()((set) => {
   return {
     indices: [],
     getIndices: async (location: string, type?: IndicesType[]) => {

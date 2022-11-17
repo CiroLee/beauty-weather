@@ -1,16 +1,15 @@
-import { FC } from 'react';
-import { useWeatherIndices } from '@/store/weather';
+import { FC, memo } from 'react';
+import { useWeatherIndicesStore } from '@/store/weather';
 import classNames from 'classnames/bind';
 import style from './style/index.module.scss';
 import Icon from '@/components/Icon';
+
 const cx = classNames.bind(style);
 const IndicesPanel: FC = () => {
-  const { indices } = useWeatherIndices((state) => state);
+  const { indices } = useWeatherIndicesStore((state) => state);
   function indicesData(type: string) {
     return indices.find((item) => item.type === type);
   }
-
-  console.log(indices);
 
   return (
     <div className={cx('indices')}>
@@ -66,4 +65,4 @@ const IndicesPanel: FC = () => {
   );
 };
 
-export default IndicesPanel;
+export default memo(IndicesPanel);

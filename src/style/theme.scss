@@ -26,6 +26,11 @@ body {
   --search-list-item-border-color: #e8e8e8;
   --search-icon-color: #313131;
   --search-bg: rgb(255 255 255 / 70%);
+
+  // action-sheet
+  --action-sheet-bg: #fff;
+  --action-sheet-out-borer-color: #bdbcbc;
+  --action-sheet-item-border-color: #f5f5f5;
   &.dark {
     --color: #fff;
     --bg-color: #494c51;
@@ -51,6 +56,11 @@ body {
     --search-list-item-border-color: #707070;
     --search-icon-color: #939393;
     --search-bg: rgb(73 76 81 / 70%);
+
+    // action-sheet
+    --action-sheet-bg: #3b3b3b;
+    --action-sheet-item-border-color: #464646;
+    --action-sheet-out-borer-color: #454545;
   }
 
   font-family: 'Noto Sans SC', sans-serif;
