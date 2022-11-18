@@ -20,19 +20,18 @@ const ActionSheet: FC<ActionSheetProps> = (props: ActionSheetProps) => {
   const [isOut, setIsOut] = useState(false);
   const actionSheetRef = useRef<HTMLDivElement | null>(null);
   const titleRef = useRef<HTMLLIElement | null>(null);
-  const handleOnClick = () => {
-    if (actionSheetRef.current) {
+  const handleOnClick = (event: React.MouseEvent) => {
+    const target = event.target as HTMLElement;
+    const targetSelectors = ['action-sheet__mask', 'action-sheet__sheet-item'];
+    if (actionSheetRef.current && targetSelectors.includes(target.className)) {
       setIsOut(true);
+      if (target.className === 'action-sheet__sheet-item') {
+        props.selected(target.dataset.id as string);
+      }
       actionSheetRef.current?.addEventListener('animationend', () => {
         setIsOut(false);
         props.toggleActionSheet(false);
       });
-    }
-  };
-
-  const handleSelected = (id: string) => {
-    if (props.selected) {
-      props.selected(id);
     }
   };
 
@@ -47,14 +46,14 @@ const ActionSheet: FC<ActionSheetProps> = (props: ActionSheetProps) => {
       style={{ '--trans-y': `${transY}px` } as React.CSSProperties}
       ref={actionSheetRef}
       className={cx('action-sheet')}
-      onClick={handleOnClick}>
+      onClick={(event) => handleOnClick(event)}>
       <div className={cx('action-sheet__mask', { out: isOut })}></div>
       <div className={cx('action-sheet__sheet', { out: isOut })}>
         <li className={cx('action-sheet__sheet-title')} ref={titleRef}>
           {props.title || '提示'}
         </li>
         {props.actions.map((item) => (
-          <li key={item.id} className={cx('action-sheet__sheet-item')} onClick={() => handleSelected(item.id)}>
+          <li key={item.id} className={cx('action-sheet__sheet-item')} data-id={item.id}>
             {item.icon ? <Icon type="ri" name={item.icon} size="20px" /> : null}
             <span>{item.text}</span>
           </li>

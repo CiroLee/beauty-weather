@@ -14,6 +14,10 @@
   i {
     margin-right: 8px;
   }
+  &__text {
+    font-size: 14px;
+    white-space: nowrap;
+  }
   &--info {
     background-color: var(--msg-info-bg);
     border-color: var(--msg-info-border);

@@ -8,10 +8,9 @@
     height: 100%;
     position: absolute;
     background-color: var(--mask-bg);
-    backdrop-filter: blur(2px);
-    animation: fade-in 0.3s forwards;
+    animation: fade-in 0.3s both;
     &.out {
-      animation: fade-out 0.3s forwards;
+      animation: fade-out 0.3s both;
     }
   }
   &__sheet {
@@ -22,15 +21,9 @@
     border-top-left-radius: 12px;
     border-top-right-radius: 12px;
     border-top: 0.5px solid var(--action-sheet-out-borer-color);
-    animation: popup 0.3s forwards;
+    animation: popup 0.3s both;
     &.out {
-      animation: pop-down 0.3s forwards;
-    }
-    li {
-      height: 56px;
-      padding: 0 20px;
-      display: flex;
-      align-items: center;
+      animation: pop-down 0.3s both;
     }
     &-title {
       font-weight: bold;
@@ -43,6 +36,16 @@
       span {
         font-size: 14px;
         margin-top: -1px;
+      }
+    }
+    li {
+      height: 56px;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      & i,
+      & span {
+        pointer-events: none;
       }
     }
   }

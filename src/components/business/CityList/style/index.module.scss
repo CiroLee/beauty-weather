@@ -12,6 +12,9 @@
   &:not(:last-child) {
     margin-bottom: 12px;
   }
+  &--active {
+    border: 1px solid #00ffa7;
+  }
 
   justify-content: space-between;
   align-items: center;

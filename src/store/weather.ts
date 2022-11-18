@@ -12,19 +12,17 @@ interface CityState {
   current: () => { location: string; name: string };
   addLocation: (id: string, name: string) => void;
   removeLocation: (id: string) => void;
+  setAsDefault: (id: string) => void;
 }
 
 export const useCityStore = create<CityState>()(
   persist(
     (set, get) => {
       return {
-        locations: [
-          { location: '101280605', name: '宝安' },
-          { location: '101010100', name: '北京' },
-        ],
+        locations: [],
         current: () => ({
-          location: get().locations[0].location,
-          name: get().locations[0].name,
+          location: get().locations[0]?.location || '101010100',
+          name: get().locations[0]?.name || '北京',
         }),
         addLocation: (location: string, name: string) => {
           set((state) => {
@@ -42,6 +40,15 @@ export const useCityStore = create<CityState>()(
               locations,
             };
           });
+        },
+        setAsDefault: (id: string) => {
+          const target = get().locations.find((item) => item.location === id);
+          const rest = get().locations.filter((item) => item.location !== id);
+          if (target) {
+            set((state) => ({ ...state, locations: [target, ...rest] }));
+          } else {
+            set((state) => state);
+          }
         },
       };
     },

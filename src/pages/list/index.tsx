@@ -1,14 +1,17 @@
 import React, { FC, useState } from 'react';
 import CityList from '@/components/business/CityList';
+import Icon from '@/components/Icon';
 import WeatherPreviewModal from '@/components/business/WeatherPreviewModal';
 import ActionSheet from '@/components/ActionSheet';
 import { useNavigate } from 'react-router-dom';
-import Icon from '@/components/Icon';
+import { useCityStore } from '@/store/weather';
 import { searchCity } from '@/services/weather-service';
 import classNames from 'classnames/bind';
 import style from './style/index.module.scss';
 import { ILocation } from '@/types/weather';
+import Message from '@/components/Message';
 
+const message = new Message();
 const cx = classNames.bind(style);
 const List: FC = () => {
   const [value, setValue] = useState('');
@@ -20,19 +23,15 @@ const List: FC = () => {
   const [isEmpty, setEmpty] = useState(false);
   const [list, setList] = useState<ILocation[]>([]);
   const [operatedCity, setOperatedCity] = useState({ location: '', name: '' });
+  const { locations, removeLocation, setAsDefault } = useCityStore((state) => state);
   const actions = [
-    {
-      id: 'add',
-      text: '添加',
-      icon: 'add-line',
-    },
     {
       id: 'delete',
       text: '删除',
       icon: 'delete-bin-line',
     },
     {
-      id: 'setDefault',
+      id: 'default',
       text: '设为默认',
       icon: 'pushpin-2-line',
     },
@@ -49,7 +48,6 @@ const List: FC = () => {
   const handleSearch = async () => {
     if (!value) return;
     const [list, ok] = await searchCity(value);
-
     if (ok) {
       if (list) {
         setList(list);
@@ -78,10 +76,27 @@ const List: FC = () => {
   const cityItemOnClickHandler = (location: string, name: string) => {
     setActionSheetShow(true);
     setOperatedCity({ location, name });
+    console.log(operatedCity);
   };
-
+  // action面板选择处理函数
   const selectedHandler = (id: string) => {
-    console.log(id);
+    console.log(id, operatedCity);
+    switch (id) {
+      case 'delete':
+        if (locations.length === 1) {
+          message.warn('不能删除最后一个城市');
+          return;
+        }
+        removeLocation(operatedCity.location);
+        break;
+      default:
+        console.log('default');
+        if (locations.findIndex((item) => item.location === operatedCity.location) === 0) {
+          message.info('当前城市已是默认城市');
+          return;
+        }
+        setAsDefault(operatedCity.location);
+    }
   };
 
   return (
@@ -121,7 +136,10 @@ const List: FC = () => {
       </ul>
       <div className={cx('list__locals')}>
         {!isEmpty && !list.length ? (
-          <CityList onClick={(location, name) => cityItemOnClickHandler(location, name)} />
+          <CityList
+            clearStatus={!showActionSheet}
+            onClick={(location, name) => cityItemOnClickHandler(location, name)}
+          />
         ) : null}
       </div>
       {showPreviewModal ? <WeatherPreviewModal {...selectedCity} onShow={togglePreview} /> : null}

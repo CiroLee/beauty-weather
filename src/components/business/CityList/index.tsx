@@ -9,12 +9,9 @@ import classNames from 'classnames/bind';
 
 const cx = classNames.bind(style);
 
-interface CityItemProps {
-  location: string;
-  name: string;
-  icon?: string;
-  tempMin?: string;
-  tempMax?: string;
+interface CityListProps {
+  className?: string;
+  clearStatus?: boolean;
   onClick?: (location: string, name: string) => void;
 }
 interface IWeatherForecastWithId extends IWeatherForecast {
@@ -23,8 +20,9 @@ interface IWeatherForecastWithId extends IWeatherForecast {
   icon?: string;
 }
 
-const CityList: FC<Pick<CityItemProps, 'onClick'>> = (props: Pick<CityItemProps, 'onClick'>) => {
+const CityList: FC<CityListProps> = (props: CityListProps) => {
   const [list, setList] = useState<IWeatherForecastWithId[]>([]);
+  const [clickedItem, setClickItem] = useState('');
   const { locations } = useCityStore((state) => state);
   const { isDayTime } = useDayTimeStore((state) => state);
   const transIconCode = (icon?: string): string => {
@@ -34,10 +32,11 @@ const CityList: FC<Pick<CityItemProps, 'onClick'>> = (props: Pick<CityItemProps,
     }
     return '';
   };
-  // 长按事件
+  // 点击
   const handleOnClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if (props.onClick) {
       const dataset = (event.target as HTMLDivElement).dataset;
+      setClickItem(dataset.location as string);
       props.onClick(dataset.location as string, dataset.name as string);
     }
   };
@@ -64,14 +63,19 @@ const CityList: FC<Pick<CityItemProps, 'onClick'>> = (props: Pick<CityItemProps,
 
   useEffect(() => {
     getForecastByLocations();
-  }, []);
+  }, [locations]);
+  useEffect(() => {
+    if (props.clearStatus) {
+      setClickItem('');
+    }
+  }, [props.clearStatus]);
 
   return (
     <div className={cx('city-list')}>
       {list.map((item) => (
         <div
           key={item.location}
-          className={cx('city-item', transIconCode(item.icon))}
+          className={cx('city-item', transIconCode(item.icon), { 'city-item--active': clickedItem === item.location })}
           onClick={(event) => handleOnClick(event)}
           data-location={item.location}
           data-name={item.name}>
