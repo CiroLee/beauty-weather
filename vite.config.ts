@@ -5,6 +5,7 @@ import px2vw from '@yuo/postcss-px2vw';
 import autoprefixer from 'autoprefixer';
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: '/beauty-weather/',
   plugins: [react()],
   resolve: {
     alias: {
@@ -38,8 +39,5 @@ export default defineConfig({
         additionalData: `@import "./src/style/mixins.scss";`,
       },
     },
-  },
-  build: {
-    assetsDir: './beauty-weather/assets/',
   },
 });
