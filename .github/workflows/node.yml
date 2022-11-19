@@ -1,0 +1,29 @@
+name: deploy site
+
+on:
+  push:
+   tags:
+     - 'v*'
+jobs:
+  main:
+   runs-on: ubuntu-latest
+   steps:
+    - name: Checkout repo
+      uses: actions/checkout@v2 
+    - uses: pnpm/action-setup@v2.2.2
+      with:
+        version: 7.14
+    - name: install
+      run: pnpm install
+    - name: build
+      run: pnpm run build
+    - name: deploy
+      uses: easingthemes/ssh-deploy@main
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_KEY }}
+        ARGS: "-rltgoDzvO --delete"
+        SOURCE: "dist/"
+        REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+        REMOTE_USER: ${{ secrets.REMOTE_USER }}
+        TARGET: ${{ secrets.REMOTE_TARGET }}
+        EXCLUDE: "/dist/, /node_modules/"

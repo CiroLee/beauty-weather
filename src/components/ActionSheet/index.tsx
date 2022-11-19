@@ -28,10 +28,6 @@ const ActionSheet: FC<ActionSheetProps> = (props: ActionSheetProps) => {
       if (target.className === 'action-sheet__sheet-item') {
         props.selected(target.dataset.id as string);
       }
-      actionSheetRef.current?.addEventListener('animationend', () => {
-        setIsOut(false);
-        props.toggleActionSheet(false);
-      });
     }
   };
 
@@ -40,6 +36,19 @@ const ActionSheet: FC<ActionSheetProps> = (props: ActionSheetProps) => {
       setTransY((titleRef.current?.clientHeight as number) * (props.actions.length + 1));
     }
   }, [props.show]);
+
+  useEffect(() => {
+    if (isOut) {
+      const animationEndHandler = () => {
+        setIsOut(false);
+        props.toggleActionSheet(false);
+      };
+      actionSheetRef.current?.addEventListener('animationend', animationEndHandler);
+      return () => {
+        actionSheetRef.current?.removeEventListener('animationend', animationEndHandler);
+      };
+    }
+  }, [isOut]);
 
   return props.show ? (
     <div
