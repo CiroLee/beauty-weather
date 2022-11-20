@@ -1,0 +1,18 @@
+.error-404 {
+  @include flex-center;
+
+  margin-top: 20%;
+  flex-direction: column;
+  .svg {
+    width: 80%;
+    height: 240px;
+    background: url('@/assets/img/page-not-found.svg') center no-repeat;
+    background-size: 100% auto;
+  }
+  a {
+    font-size: 14px;
+    color: var(--color);
+    display: inline-block;
+    margin-top: 12px;
+  }
+}

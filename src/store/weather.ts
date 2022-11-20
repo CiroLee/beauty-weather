@@ -9,7 +9,7 @@ interface CityState {
     location: string;
     name: string;
   }[];
-  current: () => { location: string; name: string };
+  current: (location?: string | null) => { location: string; name: string };
   addLocation: (id: string, name: string) => void;
   removeLocation: (id: string) => void;
   setAsDefault: (id: string) => void;
@@ -20,10 +20,19 @@ export const useCityStore = create<CityState>()(
     (set, get) => {
       return {
         locations: [],
-        current: () => ({
-          location: get().locations[0]?.location || '101010100',
-          name: get().locations[0]?.name || '北京',
-        }),
+        current: (location?: string | null) => {
+          if (location) {
+            return {
+              location: get().locations.find((item) => item.location === location)?.location || '101010100',
+              name: get().locations.find((item) => item.location === location)?.name || '北京',
+            };
+          } else {
+            return {
+              location: get().locations[0]?.location || '101010100',
+              name: get().locations[0]?.name || '北京',
+            };
+          }
+        },
         addLocation: (location: string, name: string) => {
           set((state) => {
             if (get().locations.find((item) => item.location === location)) return { ...state };

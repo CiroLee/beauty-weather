@@ -26,6 +26,11 @@ const List: FC = () => {
   const { locations, removeLocation, setAsDefault } = useCityStore((state) => state);
   const actions = [
     {
+      id: 'detail',
+      text: '查看',
+      icon: 'tablet-line',
+    },
+    {
       id: 'delete',
       text: '删除',
       icon: 'delete-bin-line',
@@ -76,11 +81,9 @@ const List: FC = () => {
   const cityItemOnClickHandler = (location: string, name: string) => {
     setActionSheetShow(true);
     setOperatedCity({ location, name });
-    console.log(operatedCity);
   };
   // action面板选择处理函数
   const selectedHandler = (id: string) => {
-    console.log(id, operatedCity);
     switch (id) {
       case 'delete':
         if (locations.length === 1) {
@@ -89,8 +92,11 @@ const List: FC = () => {
         }
         removeLocation(operatedCity.location);
         break;
+      case 'detail':
+        console.log(id, operatedCity);
+        navigate(`/?location=${operatedCity.location}`);
+        break;
       default:
-        console.log('default');
         if (locations.findIndex((item) => item.location === operatedCity.location) === 0) {
           message.info('当前城市已是默认城市');
           return;
@@ -136,10 +142,7 @@ const List: FC = () => {
       </ul>
       <div className={cx('list__locals')}>
         {!isEmpty && !list.length ? (
-          <CityList
-            clearStatus={!showActionSheet}
-            onClick={(location, name) => cityItemOnClickHandler(location, name)}
-          />
+          <CityList onClick={(location, name) => cityItemOnClickHandler(location, name)} />
         ) : null}
       </div>
       {showPreviewModal ? <WeatherPreviewModal {...selectedCity} onShow={togglePreview} /> : null}
