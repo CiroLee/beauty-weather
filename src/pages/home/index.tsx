@@ -43,17 +43,19 @@ const Home: FC = () => {
     getAirQualityNow(location);
     getIndices(location, ['0']);
     getForecastHourly(location);
-    console.log('fetch', location);
   };
-  // 获取数据
-  useEffect(() => {
+
+  const updateWeather = () => {
     const location = searchParams.get('location');
-    console.log(location);
     if (location) {
       fetchDataAll(location);
     } else {
       fetchDataAll(current().location);
     }
+  };
+  // 获取数据
+  useEffect(() => {
+    updateWeather();
   }, [searchParams.get('location')]);
 
   useEffect(() => {
@@ -70,7 +72,7 @@ const Home: FC = () => {
         size="24px"
         onClick={() => navigate('/list')}
       />
-      <BriefWeather location={searchParams.get('location')} />
+      <BriefWeather onUpdate={updateWeather} location={searchParams.get('location')} />
       <HourlyForecast className={cx('home__hourly')} options={hourly} />
       <div className={cx('home__info-panels')}>
         <BodyTempPanel value={now?.feelsLike} />

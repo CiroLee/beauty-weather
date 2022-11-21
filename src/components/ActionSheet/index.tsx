@@ -52,7 +52,7 @@ const ActionSheet: FC<ActionSheetProps> = (props: ActionSheetProps) => {
 
   return props.show ? (
     <div
-      style={{ '--trans-y': `${transY}px` } as React.CSSProperties}
+      style={{ '--trans-y': `${transY + 20}px` } as React.CSSProperties}
       ref={actionSheetRef}
       className={cx('action-sheet')}
       onClick={(event) => handleOnClick(event)}>

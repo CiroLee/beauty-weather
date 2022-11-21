@@ -12,11 +12,11 @@ export const tempMap: InfoConfig[] = [
     text: '冷,注意保暖',
   },
   {
-    range: [18, 23],
+    range: [18, 28],
     text: '舒适',
   },
   {
-    range: [24, 40],
+    range: [28, 40],
     text: '热,注意防暑',
   },
   {

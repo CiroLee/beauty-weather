@@ -93,7 +93,6 @@ const List: FC = () => {
         removeLocation(operatedCity.location);
         break;
       case 'detail':
-        console.log(id, operatedCity);
         navigate(`/?location=${operatedCity.location}`);
         break;
       default:

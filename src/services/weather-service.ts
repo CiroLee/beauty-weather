@@ -55,7 +55,17 @@ export const getWeatherNow = async (location: string): Promise<[IWeatherNowRes |
       message.error(result.message || '请求失败');
       return [undefined, false];
     }
-    return [result.data, true];
+    const now = {
+      ...result.data.now,
+      updateTime: result.data.updateTime,
+    };
+    return [
+      {
+        ...result.data,
+        now,
+      },
+      true,
+    ];
   } catch (error) {
     console.error(error);
 

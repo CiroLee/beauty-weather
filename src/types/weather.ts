@@ -1,4 +1,5 @@
 export interface IWeatherNow {
+  updateTime?: string;
   obsTime: string;
   temp: string;
   feelsLike: string;

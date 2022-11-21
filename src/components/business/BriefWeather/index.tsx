@@ -1,5 +1,6 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useMemo, useState } from 'react';
 import { useCityStore, useForecastStore, useWeatherNowStore } from '@/store/weather';
+import { differenceInMinutes, format } from 'date-fns';
 import { iconToBgMap } from '@/config/weather.config';
 import classNames from 'classnames/bind';
 import style from './style/index.module.scss';
@@ -7,6 +8,7 @@ import Icon from '../../Icon';
 
 interface BriefWeatherProps {
   location?: string | null;
+  onUpdate: () => void;
 }
 const cx = classNames.bind(style);
 export const BriefWeather: FC<BriefWeatherProps> = (props: BriefWeatherProps) => {
@@ -21,6 +23,20 @@ export const BriefWeather: FC<BriefWeatherProps> = (props: BriefWeatherProps) =>
     }
   };
 
+  const updateTime = useMemo(() => {
+    if (!now?.updateTime) {
+      return '';
+    }
+    const diff = Math.abs(differenceInMinutes(new Date(now.updateTime), new Date()));
+    if (diff < 1) {
+      return '刚刚更新';
+    } else if (diff >= 1 && diff < 60) {
+      return `${diff}分钟前更新`;
+    }
+
+    return `${format(new Date(now.updateTime), 'MM-dd HH:mm:ss')}`;
+  }, [now?.updateTime]);
+
   useEffect(() => {
     if (now?.icon) {
       transIconCode(now?.icon);
@@ -33,8 +49,12 @@ export const BriefWeather: FC<BriefWeatherProps> = (props: BriefWeatherProps) =>
         <h2 className={cx('brief-weather--location')}>{current(props.location).name}</h2>
         <Icon type="qi" name={`${now?.icon}-fill`} size="120px" color="#fff" />
         <p className={cx('name')}>{now?.text}</p>
-        <p className={cx('temprature', 'num-font')}>
+        <p className={cx('temperature', 'num-font')}>
           {daily[0]?.tempMin}~{daily[0]?.tempMax}°C
+        </p>
+        <p className={cx('brief-weather__update')} onClick={props.onUpdate}>
+          <Icon type="ri" name="refresh-line" />
+          <span>{updateTime}</span>
         </p>
       </div>
     </div>

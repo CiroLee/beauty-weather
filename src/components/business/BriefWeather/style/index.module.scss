@@ -11,14 +11,25 @@
     font-size: 32px;
   }
   &__data {
-    margin-top: 100px;
+    margin-top: 80px;
     color: #fff;
     text-align: center;
-    .temprature {
+    .temperature {
       margin-top: 12px;
     }
     .name {
       font-size: 20px;
+    }
+  }
+  &__update {
+    color: #c4c4c4;
+    display: inline-flex;
+    align-items: center;
+    margin-top: 16px;
+    font-size: 13px;
+    span {
+      margin-top: -2px;
+      margin-left: 4px;
     }
   }
 }
