@@ -8,7 +8,9 @@
     height: 100%;
     position: absolute;
     background-color: var(--mask-bg);
-    animation: fade-in 0.3s both;
+    &.in {
+      animation: fade-in 0.3s both;
+    }
     &.out {
       animation: fade-out 0.3s both;
     }
@@ -21,9 +23,11 @@
     border-top-left-radius: 12px;
     border-top-right-radius: 12px;
     border-top: 0.5px solid var(--action-sheet-out-borer-color);
-    animation: popup 0.3s both;
+    &.in {
+      animation: popup 0.3s both;
+    }
     &.out {
-      animation: pop-down 0.5s both;
+      animation: pop-down 0.3s both;
     }
     &-title {
       font-weight: bold;
@@ -71,13 +75,13 @@
     transform: translateY(var(--trans-y));
   }
   100% {
-    transform: translateY(0);
+    transform: translateY(0%);
   }
 }
 
 @keyframes pop-down {
   0% {
-    transform: translateY(0);
+    transform: translateY(0%);
   }
   100% {
     transform: translateY(var(--trans-y));
