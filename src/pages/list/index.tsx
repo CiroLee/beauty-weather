@@ -47,8 +47,11 @@ const List: FC = () => {
   };
   const clearValue = () => {
     setValue('');
+  };
+  const cancelSearch = () => {
     setEmpty(false);
     setList([]);
+    setValue('');
   };
   const handleSearch = async () => {
     if (!value) return;
@@ -116,7 +119,7 @@ const List: FC = () => {
             onChange={(event) => handleOnChange(event)}
             onKeyDown={(event) => handleKeyDown(event)}
           />
-          {value.length ? (
+          {value ? (
             <Icon
               className={cx('list__search--clear')}
               type="ri"
@@ -126,7 +129,7 @@ const List: FC = () => {
             />
           ) : null}
         </div>
-        <Icon type="ri" name="search-2-line" size="26px" onClick={handleSearch} />
+        {list.length || isEmpty ? <div onClick={cancelSearch}>取消</div> : null}
       </div>
       <ul className={cx('list__search-result')}>
         {list.map((item) => (

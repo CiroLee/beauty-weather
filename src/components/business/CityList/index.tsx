@@ -1,7 +1,8 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
+import Icon from '@/components/Icon';
+import Loading from '@/components/Loading';
 import { useClickAway } from 'react-use';
 import { getWeatherForecast } from '@/services/weather-service';
-import Icon from '@/components/Icon';
 import { useCityStore, useDayTimeStore } from '@/store/weather';
 import { IWeatherForecast } from '@/types/weather';
 import { iconToBgMap } from '@/config/weather.config';
@@ -9,6 +10,7 @@ import style from './style/index.module.scss';
 import classNames from 'classnames/bind';
 
 const cx = classNames.bind(style);
+const loading = new Loading();
 
 interface CityListProps {
   onClick?: (location: string, name: string) => void;
@@ -86,6 +88,7 @@ const CityList: FC<CityListProps> = (props: CityListProps) => {
 
   // 组件内，读取local的列表，拉取天气信息
   const getForecastByLocations = async () => {
+    loading.start();
     const result = await Promise.all(
       locations.map((item) => {
         return getWeatherForecast(item.location, 3);
@@ -101,6 +104,7 @@ const CityList: FC<CityListProps> = (props: CityListProps) => {
         };
       });
       setList(list as IWeatherForecastWithId[]);
+      loading.stop();
     }
   };
 

@@ -24,6 +24,8 @@ class Loading {
   private loadingRef = React.createRef<HTMLDivElement>();
 
   start(text?: string) {
+    console.log('dom::::', this.dom);
+
     if (this.dom) return;
     // 背景层固定不滚动
     document.body.style.overflow = 'hidden';
@@ -41,6 +43,7 @@ class Loading {
       this.vDOM?.unmount();
       if (document.body.contains(this.dom) && this.dom) {
         document.body.removeChild(this.dom);
+        this.dom = null;
       }
       document.body.removeAttribute('style');
     });

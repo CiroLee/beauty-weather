@@ -1,6 +1,7 @@
 import { FC, useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import Icon from '@/components/Icon';
+import Loading from '@/components/Loading';
 import HourlyForecast from '@/components/business/HourlyForecast';
 import { BriefWeather } from '@/components/business/BriefWeather';
 import { AirQualityPanel, BodyTempPanel, HumidityPanel, SunsetPanel } from '@/components/business/InfoPanel';
@@ -18,7 +19,7 @@ import { getWeatherForcastHourly } from '@/services/weather-service';
 import { IWeatherHourly } from '@/types/weather';
 import classNames from 'classnames/bind';
 import style from './style/index.module.scss';
-
+const loading = new Loading();
 const cx = classNames.bind(style);
 const Home: FC = () => {
   const navigate = useNavigate();
@@ -37,12 +38,14 @@ const Home: FC = () => {
     }
   };
 
-  const fetchDataAll = (location: string) => {
+  const fetchDataAll = async (location: string) => {
+    loading.start();
     getNow(location);
     getForecast(location, 7);
     getAirQualityNow(location);
     getIndices(location, ['0']);
-    getForecastHourly(location);
+    await getForecastHourly(location);
+    loading.stop();
   };
 
   const updateWeather = () => {

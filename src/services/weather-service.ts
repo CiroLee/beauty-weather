@@ -12,10 +12,18 @@ import type {
   IWeatherNowRes,
 } from '@/types/weather';
 
+interface ServiceOptions {
+  loading?: boolean;
+}
 const loading = new Loading();
 const message = new Message();
 
-export const searchCity = async (location: string, num = 20): Promise<[ILocation[] | undefined, boolean]> => {
+export const searchCity = async (
+  location: string,
+  num = 20,
+  opt?: ServiceOptions,
+): Promise<[ILocation[] | undefined, boolean]> => {
+  opt?.loading && loading.start();
   try {
     const result = await request<ILocation[]>({
       url: '/api/tools/weather/city',
@@ -37,13 +45,16 @@ export const searchCity = async (location: string, num = 20): Promise<[ILocation
     console.error(error);
     return [undefined, false];
   } finally {
-    loading.stop();
+    opt?.loading && loading.stop();
   }
 };
 
-export const getWeatherNow = async (location: string): Promise<[IWeatherNowRes | undefined, boolean]> => {
+export const getWeatherNow = async (
+  location: string,
+  opt?: ServiceOptions,
+): Promise<[IWeatherNowRes | undefined, boolean]> => {
   try {
-    loading.start();
+    opt?.loading && loading.start();
     const result = await request<IWeatherNowRes>({
       url: '/api/tools/weather/now',
       method: 'POST',
@@ -71,15 +82,16 @@ export const getWeatherNow = async (location: string): Promise<[IWeatherNowRes |
 
     return [undefined, false];
   } finally {
-    loading.stop();
+    opt?.loading && loading.stop();
   }
 };
 // 逐日天气预报
 export const getWeatherForecast = async (
   location: string,
   day: number,
+  opt?: ServiceOptions,
 ): Promise<[IWeatherForecastRes | undefined, boolean]> => {
-  loading.start();
+  opt?.loading && loading.start();
   try {
     const result = await request<IWeatherForecastRes>({
       url: '/api/tools/weather/forecast-day',
@@ -97,13 +109,16 @@ export const getWeatherForecast = async (
   } catch (error) {
     return [undefined, false];
   } finally {
-    loading.stop();
+    opt?.loading && loading.stop();
   }
 };
 
 // 逐时天气预报
-export const getWeatherForcastHourly = async (location: string): Promise<[IWeatherHourlyRes | undefined, boolean]> => {
-  loading.start();
+export const getWeatherForcastHourly = async (
+  location: string,
+  opt?: ServiceOptions,
+): Promise<[IWeatherHourlyRes | undefined, boolean]> => {
+  opt?.loading && loading.start();
   try {
     const result = await request<IWeatherHourlyRes>({
       url: '/api/tools/weather/forecast-hour',
@@ -121,13 +136,16 @@ export const getWeatherForcastHourly = async (location: string): Promise<[IWeath
     console.error(error);
     return [undefined, false];
   } finally {
-    loading.stop();
+    opt?.loading && loading.stop();
   }
 };
 
-export const getAirQualityNow = async (location: string): Promise<[IAirQualityRes | undefined, boolean]> => {
+export const getAirQualityNow = async (
+  location: string,
+  opt?: ServiceOptions,
+): Promise<[IAirQualityRes | undefined, boolean]> => {
+  opt?.loading && loading.start();
   try {
-    loading.start();
     const result = await request<IAirQualityRes>({
       url: '/api/tools/weather/air',
       method: 'POST',
@@ -142,16 +160,17 @@ export const getAirQualityNow = async (location: string): Promise<[IAirQualityRe
     console.error(error);
     return [undefined, false];
   } finally {
-    loading.stop();
+    opt?.loading && loading.stop();
   }
 };
 
 export const getWeatherIndices = async (
   location: string,
   type?: IndicesType[],
+  opt?: ServiceOptions,
 ): Promise<[IWeatherIndicesRes | undefined, boolean]> => {
+  opt?.loading && loading.start();
   try {
-    loading.start();
     const result = await request<IWeatherIndicesRes>({
       url: '/api/tools/weather/indices-daily',
       method: 'POST',
@@ -170,6 +189,6 @@ export const getWeatherIndices = async (
 
     return [undefined, false];
   } finally {
-    loading.stop();
+    opt?.loading && loading.stop();
   }
 };

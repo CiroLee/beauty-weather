@@ -1,8 +1,10 @@
 import create from 'zustand';
+import Message from '@/components/Message';
 import { persist } from 'zustand/middleware';
 import { getAirQualityNow, getWeatherForecast, getWeatherIndices, getWeatherNow } from '@/services/weather-service';
 import { IAirQuality, IDailyIndices, IndicesType, IWeatherForecast, IWeatherNow } from '@/types/weather';
 
+const message = new Message();
 // 当前使用的城市信息
 interface CityState {
   locations: {
@@ -35,7 +37,10 @@ export const useCityStore = create<CityState>()(
         },
         addLocation: (location: string, name: string) => {
           set((state) => {
-            if (get().locations.find((item) => item.location === location)) return { ...state };
+            if (get().locations.find((item) => item.location === location)) {
+              message.warn('该城市已在列表中');
+              return { ...state };
+            }
             state.locations.push({ location, name });
             return {
               locations: state.locations,
