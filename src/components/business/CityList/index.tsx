@@ -88,7 +88,7 @@ const CityList: FC<CityListProps> = (props: CityListProps) => {
 
   // 组件内，读取local的列表，拉取天气信息
   const getForecastByLocations = async () => {
-    loading.start();
+    // loading.start();
     const result = await Promise.all(
       locations.map((item) => {
         return getWeatherForecast(item.location, 3);
@@ -104,12 +104,14 @@ const CityList: FC<CityListProps> = (props: CityListProps) => {
         };
       });
       setList(list as IWeatherForecastWithId[]);
-      loading.stop();
     }
+    loading.stop();
   };
 
   useEffect(() => {
-    getForecastByLocations();
+    if (locations.length) {
+      getForecastByLocations();
+    }
   }, [locations]);
 
   return (
