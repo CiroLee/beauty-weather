@@ -9,6 +9,9 @@
   height: 80px;
   position: relative;
   overflow: hidden;
+  & > * {
+    pointer-events: none;
+  }
   &:not(:last-child) {
     margin-bottom: 12px;
   }
@@ -27,8 +30,8 @@
   transition: transform 0.2s ease;
   color: #fff;
   &__brief {
-    pointer-events: none;
     text-align: center;
+    &,
     p {
       font-size: 10px;
     }
