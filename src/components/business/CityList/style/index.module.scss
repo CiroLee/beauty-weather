@@ -27,6 +27,7 @@
   transition: transform 0.2s ease;
   color: #fff;
   &__brief {
+    pointer-events: none;
     text-align: center;
     p {
       font-size: 10px;
