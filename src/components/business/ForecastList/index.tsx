@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import React, { FC, useRef } from 'react';
 import Icon from '@/components/Icon';
 import { useDayTimeStore } from '@/store/weather';
 import classNames from 'classnames/bind';
@@ -12,6 +12,39 @@ const cx = classNames.bind(style);
 interface IForecastProps {
   options: IWeatherForecast[];
 }
+interface TempBarProps {
+  tempMin?: number;
+  tempMax?: number;
+}
+const TempBar = (props: TempBarProps) => {
+  const barRef = useRef<HTMLDivElement | null>(null);
+  const { tempMin = 0, tempMax = 0 } = props;
+  const threshold = 80;
+  let tempRange: 'negative' | 'positive' | '' = '';
+  function renderInnerBar() {
+    let _offsetLeft = 0;
+    let _offsetRight = 0;
+    if (tempMin < 0 && tempMax < 0) {
+      tempRange = 'negative';
+    } else if (tempMin > 0 && tempMax > 0) {
+      tempRange = 'positive';
+    }
+    if (barRef.current) {
+      const parentLen = barRef.current.offsetWidth;
+      _offsetLeft = ((0.5 * parentLen * (1 + tempMin / threshold)) / parentLen) * 50;
+      _offsetRight = ((0.5 * parentLen * (1 - tempMax / threshold)) / parentLen) * 50;
+    }
+    return {
+      '--offset-left': `${_offsetLeft}%`,
+      '--offset-right': `${_offsetRight}%`,
+    } as React.CSSProperties;
+  }
+  return (
+    <div ref={barRef} className={cx('forecast-list__item-temp-bar')}>
+      <div style={renderInnerBar()} className={cx('forecast-list__item-temp-bar--inner', tempRange)}></div>
+    </div>
+  );
+};
 const ForecastList: FC<IForecastProps> = (props: IForecastProps) => {
   const { isDayTime } = useDayTimeStore((state) => state);
   function getWeek(date: string): string {
@@ -38,7 +71,7 @@ const ForecastList: FC<IForecastProps> = (props: IForecastProps) => {
           />
           <div className={cx('forecast-list__item-temp')}>
             <span>{item.tempMin}°C</span>
-            <div className={cx('forecast-list__item-temp-bar')}></div>
+            <TempBar tempMin={Number(item.tempMin)} tempMax={Number(item.tempMax)} />
             <span>{item.tempMax}°C</span>
           </div>
         </li>
