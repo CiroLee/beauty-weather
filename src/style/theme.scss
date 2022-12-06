@@ -31,6 +31,9 @@ body {
   --action-sheet-bg: #fff;
   --action-sheet-out-borer-color: #bdbcbc;
   --action-sheet-item-border-color: #f5f5f5;
+
+  // modal
+  --modal-bg: #fff;
   &.dark {
     --color: #fff;
     --bg-color: #494c51;
@@ -61,6 +64,9 @@ body {
     --action-sheet-bg: #3b3b3b;
     --action-sheet-item-border-color: #464646;
     --action-sheet-out-borer-color: #454545;
+
+    // modal
+    --modal-bg: #3b3b3b;
   }
 
   font-family: 'Noto Sans SC', sans-serif;

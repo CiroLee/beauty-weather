@@ -7,6 +7,7 @@ import { BriefWeather } from '@/components/business/BriefWeather';
 import { AirQualityPanel, BodyTempPanel, HumidityPanel, SunsetPanel } from '@/components/business/InfoPanel';
 import ForecastList from '@/components/business/ForecastList';
 import IndicesPanel from '@/components/business/IndicesPanel';
+import WeatherWarnModal from '@/components/business/WeatherWarnModal';
 import {
   useAirQualityNow,
   useCityStore,
@@ -19,6 +20,7 @@ import { getWeatherForcastHourly } from '@/services/weather-service';
 import { IWeatherHourly } from '@/types/weather';
 import classNames from 'classnames/bind';
 import style from './style/index.module.scss';
+
 const loading = new Loading();
 const cx = classNames.bind(style);
 const Home: FC = () => {
@@ -85,6 +87,7 @@ const Home: FC = () => {
       </div>
       <ForecastList options={daily} />
       <IndicesPanel />
+      <WeatherWarnModal />
     </div>
   );
 };
