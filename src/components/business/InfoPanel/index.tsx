@@ -77,7 +77,7 @@ export const HumidityPanel: FC<PanelItem> = (props: PanelItem) => {
   );
 };
 interface ISunsetPanelProps extends Omit<PanelItem, 'text'> {
-  sunrize: string;
+  sunrise: string;
   sunset: string;
 }
 export const SunsetPanel: FC<ISunsetPanelProps> = (props: ISunsetPanelProps) => {
@@ -94,7 +94,7 @@ export const SunsetPanel: FC<ISunsetPanelProps> = (props: ISunsetPanelProps) => 
           />
           <span>{isDayTime ? '日落' : '日出'}</span>
         </div>
-        <div className={cx('panel-main__content', 'num-font')}>{isDayTime ? props.sunset : props.sunrize}</div>
+        <div className={cx('panel-main__content', 'num-font')}>{isDayTime ? props.sunset : props.sunrise}</div>
       </div>
       <div className={cx('panel-rest')}>
         {isDayTime ? (

@@ -5,6 +5,7 @@ import { iconToBgMap } from '@/config/weather.config';
 import classNames from 'classnames/bind';
 import style from './style/index.module.scss';
 import Icon from '../../Icon';
+import { useNavigate } from 'react-router-dom';
 
 interface BriefWeatherProps {
   location?: string | null;
@@ -12,6 +13,7 @@ interface BriefWeatherProps {
 }
 const cx = classNames.bind(style);
 export const BriefWeather: FC<BriefWeatherProps> = (props: BriefWeatherProps) => {
+  const navigate = useNavigate();
   const { current } = useCityStore((state) => state);
   const { daily } = useForecastStore((state) => state);
   const { now } = useWeatherNowStore((state) => state);
@@ -46,7 +48,10 @@ export const BriefWeather: FC<BriefWeatherProps> = (props: BriefWeatherProps) =>
   return (
     <div className={cx('brief-weather', bg)}>
       <div className={cx('brief-weather__data')}>
-        <h2 className={cx('brief-weather--location')}>{current(props.location).name}</h2>
+        <h2 className={cx('brief-weather--location')} onClick={() => navigate('/list')}>
+          <span>{current(props.location).name}</span>
+          <Icon type="ri" name="search-line" size="20px" />
+        </h2>
         <Icon type="qi" name={`${now?.icon}-fill`} size="120px" color="#fff" />
         <p className={cx('name')}>{now?.text}</p>
         <p className={cx('temperature', 'num-font')}>

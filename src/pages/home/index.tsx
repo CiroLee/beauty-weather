@@ -15,17 +15,20 @@ import {
   useForecastStore,
   useWeatherIndicesStore,
   useWeatherNowStore,
+  useWeatherWarnStore,
 } from '@/store/weather';
-import { getWeatherForcastHourly } from '@/services/weather-service';
+import { getWeatherForecastHourly } from '@/services/weather-service';
 import { IWeatherHourly } from '@/types/weather';
 import classNames from 'classnames/bind';
 import style from './style/index.module.scss';
+import { getSeverityColor } from '@/utils/utils';
 
 const loading = new Loading();
 const cx = classNames.bind(style);
 const Home: FC = () => {
-  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const [selectedWarnId, setSelectedWarnId] = useState('');
+  const [showWarnModal, setShowWarnModal] = useState(false);
   const [hourly, setHourly] = useState<IWeatherHourly[]>([]);
   const { current } = useCityStore((state) => state);
   const { now, getNow } = useWeatherNowStore((state) => state);
@@ -33,8 +36,10 @@ const Home: FC = () => {
   const { judgeDayTime } = useDayTimeStore((state) => state);
   const { daily, getForecast } = useForecastStore((state) => state);
   const { getIndices } = useWeatherIndicesStore((state) => state);
+  const { warns, getDisasterWarning } = useWeatherWarnStore((state) => state);
+
   const getForecastHourly = async (location: string) => {
-    const [result, ok] = await getWeatherForcastHourly(location);
+    const [result, ok] = await getWeatherForecastHourly(location);
     if (ok) {
       setHourly(result?.hourly as IWeatherHourly[]);
     }
@@ -47,6 +52,7 @@ const Home: FC = () => {
     getAirQualityNow(location);
     getIndices(location, ['0']);
     await getForecastHourly(location);
+    getDisasterWarning(location);
     loading.stop();
   };
 
@@ -69,25 +75,36 @@ const Home: FC = () => {
 
   return (
     <div className={cx('home')}>
-      <Icon
-        className={cx('home__map')}
-        type="ri"
-        name="earth-line"
-        color="#e0e0e0"
-        size="24px"
-        onClick={() => navigate('/list')}
-      />
+      {warns?.length ? (
+        <div className={cx('home__warns')}>
+          {warns.map((item) => (
+            <div
+              className={cx('home__warns--item')}
+              key={item.id}
+              style={{ backgroundColor: getSeverityColor(item.severityColor) }}
+              onClick={() => {
+                setSelectedWarnId(item.id);
+                setShowWarnModal(true);
+              }}>
+              <Icon type="ri" name="alarm-warning-line" color="#fff" />
+              <span>{item.typeName}预警</span>
+            </div>
+          ))}
+        </div>
+      ) : null}
       <BriefWeather onUpdate={updateWeather} location={searchParams.get('location')} />
       <HourlyForecast className={cx('home__hourly')} options={hourly} />
       <div className={cx('home__info-panels')}>
         <BodyTempPanel value={now?.feelsLike} />
         <HumidityPanel value={now?.humidity} />
-        <SunsetPanel sunrize={daily[0]?.sunrise} sunset={daily[0]?.sunset} />
+        <SunsetPanel sunrise={daily[0]?.sunrise} sunset={daily[0]?.sunset} />
         <AirQualityPanel value={qualityNow?.aqi} category={qualityNow?.category} />
       </div>
       <ForecastList options={daily} />
       <IndicesPanel />
-      <WeatherWarnModal />
+      {showWarnModal ? (
+        <WeatherWarnModal id={selectedWarnId} location="101300501" onClose={() => setShowWarnModal(false)} />
+      ) : null}
     </div>
   );
 };

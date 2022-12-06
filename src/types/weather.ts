@@ -7,7 +7,7 @@ export interface IWeatherNow {
   text: string;
   wind360: string;
   windDir: string;
-  wdinScale: string;
+  windScale: string;
   windSpeed: string;
   humidity: string;
   precip: string;
@@ -117,12 +117,29 @@ export interface IDailyIndices {
   text?: string; // 生活指数详细描述
 }
 
+export interface IDisasterWarning {
+  id: string;
+  sender?: string; // 预警发布单位
+  pubTime: string;
+  title: string;
+  startTime?: string;
+  endTime?: string;
+  status: string;
+  level: string;
+  severity: string;
+  severityColor: string;
+  type: string; // 预警类型ID
+  typeName: string;
+  text: string;
+  related?: string; // 与本条预警相关联的预警ID，当预警状态为cancel或update时返回
+}
+
 interface ISourceRefer {
   sources?: string[];
   license?: string[];
 }
 
-export interface ISerchCityReq {
+export interface ISearchCityReq {
   location: string;
   number?: number;
   adm?: string; // 行政区
@@ -133,19 +150,19 @@ export interface IWeatherNowRes {
   location: string;
   now: IWeatherNow;
   updateTime: string;
-  reffer: ISourceRefer;
+  refer: ISourceRefer;
 }
 
 export interface IWeatherForecastRes {
   location: string;
   daily: IWeatherForecast[];
-  reffer: ISourceRefer;
+  refer: ISourceRefer;
 }
 
 export interface IWeatherHourlyRes {
   location: string;
   hourly: IWeatherHourly[];
-  reffer: ISourceRefer;
+  refer: ISourceRefer;
 }
 
 export interface IAirQualityRes {
@@ -158,5 +175,12 @@ export interface IAirQualityRes {
 export interface IWeatherIndicesRes {
   location: string;
   daily: IDailyIndices[];
-  reffer: ISourceRefer;
+  refer: ISourceRefer;
+}
+
+export interface IDisasterWarningRes {
+  location: string;
+  upDateTime: string;
+  warning: IDisasterWarning[];
+  refer: ISourceRefer;
 }

@@ -9,6 +9,14 @@
   overflow: hidden;
   &--location {
     font-size: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    :global(.icon) {
+      margin-left: 4px;
+      margin-top: 4px;
+      opacity: 0.6;
+    }
   }
   &__data {
     margin-top: 80px;

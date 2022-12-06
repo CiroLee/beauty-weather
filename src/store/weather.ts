@@ -1,8 +1,21 @@
 import create from 'zustand';
 import Message from '@/components/Message';
 import { persist } from 'zustand/middleware';
-import { getAirQualityNow, getWeatherForecast, getWeatherIndices, getWeatherNow } from '@/services/weather-service';
-import { IAirQuality, IDailyIndices, IndicesType, IWeatherForecast, IWeatherNow } from '@/types/weather';
+import {
+  getAirQualityNow,
+  getWeatherForecast,
+  getWeatherIndices,
+  getWeatherNow,
+  getWeatherWarn,
+} from '@/services/weather-service';
+import {
+  IAirQuality,
+  IDailyIndices,
+  IDisasterWarning,
+  IndicesType,
+  IWeatherForecast,
+  IWeatherNow,
+} from '@/types/weather';
 
 const message = new Message();
 // 当前使用的城市信息
@@ -167,6 +180,28 @@ export const useWeatherIndicesStore = create<IWeatherIndicesState>()((set) => {
       if (ok) {
         set(() => ({
           indices: result?.daily,
+        }));
+      }
+    },
+  };
+});
+
+interface IWeatherWarnStore {
+  warns: IDisasterWarning[];
+  getDisasterWarning: (location: string) => void;
+  getDisasterById: (id: string) => IDisasterWarning | undefined;
+}
+export const useWeatherWarnStore = create<IWeatherWarnStore>()((set, get) => {
+  return {
+    warns: [],
+    getDisasterById: (id: string) => {
+      return get().warns.find((item) => item.id === id);
+    },
+    getDisasterWarning: async (location: string) => {
+      const [result, ok] = await getWeatherWarn(location);
+      if (ok) {
+        set(() => ({
+          warns: result?.warning || [],
         }));
       }
     },
