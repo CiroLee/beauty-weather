@@ -93,7 +93,7 @@ const Home: FC = () => {
                 setShowWarnModal(true);
               }}>
               <Icon type="ri" name="alarm-warning-line" color="#fff" />
-              <span>{item.typeName}预警</span>
+              <span>{item.typeName}</span>
             </div>
           ))}
         </div>

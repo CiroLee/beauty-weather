@@ -26,15 +26,15 @@
   &__warns {
     position: absolute;
     right: 0;
-    top: 24px;
+    top: 28px;
     &--item {
       margin-right: 6px;
-      padding: 0 8px;
-      height: 22px;
+      padding: 0 10px;
+      height: 24px;
       display: flex;
       justify-content: center;
       align-items: center;
-      border-radius: 10px;
+      border-radius: 12px;
       margin-bottom: 10px;
       color: #fff;
       span {

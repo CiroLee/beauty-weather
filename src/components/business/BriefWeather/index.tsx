@@ -1,6 +1,7 @@
 import { FC, useEffect, useMemo, useState } from 'react';
 import { useForecastStore, useWeatherNowStore } from '@/store/weather';
-import { differenceInMinutes, format } from 'date-fns';
+import { differenceInMinutes } from 'date-fns';
+import { dateFormat } from 'mew-utils'
 import { iconToBgMap } from '@/config/weather.config';
 import classNames from 'classnames/bind';
 import style from './style/index.module.scss';
@@ -35,7 +36,7 @@ export const BriefWeather: FC<BriefWeatherProps> = (props: BriefWeatherProps) =>
       return `${diff}分钟前更新`;
     }
 
-    return `${format(new Date(now.updateTime), 'MM-dd HH:mm:ss')}`;
+    return `${dateFormat(new Date(now.updateTime), 'MM-dd HH:mm:ss')}`;
   }, [now?.updateTime]);
 
   useEffect(() => {
