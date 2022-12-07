@@ -31,9 +31,9 @@ const TempBar = (props: TempBarProps) => {
     }
     if (barRef.current) {
       const parentLen = barRef.current.offsetWidth;
-      // 缩放到80%， 100%的话，太小了...
-      _offsetLeft = ((0.5 * parentLen * (1 + tempMin / threshold)) / parentLen) * 80;
-      _offsetRight = ((0.5 * parentLen * (1 - tempMax / threshold)) / parentLen) * 80;
+      // 缩放到60%， 100%的话，太小了...
+      _offsetLeft = ((0.5 * parentLen * (1 + tempMin / threshold)) / parentLen) * 60;
+      _offsetRight = ((0.5 * parentLen * (1 - tempMax / threshold)) / parentLen) * 60;
     }
     return {
       '--offset-left': `${_offsetLeft}%`,
