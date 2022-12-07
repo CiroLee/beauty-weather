@@ -19,7 +19,7 @@ interface TempBarProps {
 const TempBar = (props: TempBarProps) => {
   const barRef = useRef<HTMLDivElement | null>(null);
   const { tempMin = 0, tempMax = 0 } = props;
-  const threshold = 80;
+  const threshold = 50;
   let tempRange: 'negative' | 'positive' | '' = '';
   function renderInnerBar() {
     let _offsetLeft = 0;
@@ -31,8 +31,9 @@ const TempBar = (props: TempBarProps) => {
     }
     if (barRef.current) {
       const parentLen = barRef.current.offsetWidth;
-      _offsetLeft = ((0.5 * parentLen * (1 + tempMin / threshold)) / parentLen) * 50;
-      _offsetRight = ((0.5 * parentLen * (1 - tempMax / threshold)) / parentLen) * 50;
+      // 缩放到80%， 100%的话，太小了...
+      _offsetLeft = ((0.5 * parentLen * (1 + tempMin / threshold)) / parentLen) * 80;
+      _offsetRight = ((0.5 * parentLen * (1 - tempMax / threshold)) / parentLen) * 80;
     }
     return {
       '--offset-left': `${_offsetLeft}%`,

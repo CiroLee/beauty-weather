@@ -27,6 +27,7 @@ const loading = new Loading();
 const cx = classNames.bind(style);
 const Home: FC = () => {
   const [searchParams] = useSearchParams();
+  const [cityName, setCityName] = useState('');
   const [selectedWarnId, setSelectedWarnId] = useState('');
   const [showWarnModal, setShowWarnModal] = useState(false);
   const [hourly, setHourly] = useState<IWeatherHourly[]>([]);
@@ -64,9 +65,14 @@ const Home: FC = () => {
       fetchDataAll(current().location);
     }
   };
+  const updateCityName = () => {
+    const location = searchParams.get('location');
+    setCityName(current(location).name);
+  };
   // 获取数据
   useEffect(() => {
     updateWeather();
+    updateCityName();
   }, [searchParams.get('location')]);
 
   useEffect(() => {
@@ -92,7 +98,7 @@ const Home: FC = () => {
           ))}
         </div>
       ) : null}
-      <BriefWeather onUpdate={updateWeather} location={searchParams.get('location')} />
+      <BriefWeather onUpdate={updateWeather} city={cityName} />
       <HourlyForecast className={cx('home__hourly')} options={hourly} />
       <div className={cx('home__info-panels')}>
         <BodyTempPanel value={now?.feelsLike} />
@@ -103,7 +109,7 @@ const Home: FC = () => {
       <ForecastList options={daily} />
       <IndicesPanel />
       {showWarnModal ? (
-        <WeatherWarnModal id={selectedWarnId} location="101300501" onClose={() => setShowWarnModal(false)} />
+        <WeatherWarnModal id={selectedWarnId} city={cityName} onClose={() => setShowWarnModal(false)} />
       ) : null}
     </div>
   );

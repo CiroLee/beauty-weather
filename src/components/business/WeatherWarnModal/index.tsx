@@ -4,6 +4,7 @@ import style from './style/index.module.scss';
 import Icon from '@/components/Icon';
 import { getSeverityColor } from '@/utils/utils';
 import { useCityStore, useWeatherWarnStore } from '@/store/weather';
+
 const cx = classnames.bind(style);
 
 interface WarnSymbolProps {
@@ -26,7 +27,7 @@ const WarnSymbol: FC<WarnSymbolProps> = (props: WarnSymbolProps) => {
 };
 
 interface IWeatherWarnModalProps {
-  location: string;
+  city: string;
   id: string;
   onClose: () => void;
 }
@@ -45,7 +46,7 @@ const WeatherWarnModal: FC<IWeatherWarnModalProps> = (props: IWeatherWarnModalPr
           color="#fff"
           onClick={props.onClose}
         />
-        <h4>{current(props.location).name}</h4>
+        <h4>{props.city}</h4>
         <div className={cx('warn__brief')}>
           <WarnSymbol
             color={getDisasterById(props.id)?.severityColor}

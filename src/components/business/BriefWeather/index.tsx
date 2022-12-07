@@ -1,5 +1,5 @@
 import { FC, useEffect, useMemo, useState } from 'react';
-import { useCityStore, useForecastStore, useWeatherNowStore } from '@/store/weather';
+import { useForecastStore, useWeatherNowStore } from '@/store/weather';
 import { differenceInMinutes, format } from 'date-fns';
 import { iconToBgMap } from '@/config/weather.config';
 import classNames from 'classnames/bind';
@@ -8,13 +8,12 @@ import Icon from '../../Icon';
 import { useNavigate } from 'react-router-dom';
 
 interface BriefWeatherProps {
-  location?: string | null;
+  city: string;
   onUpdate: () => void;
 }
 const cx = classNames.bind(style);
 export const BriefWeather: FC<BriefWeatherProps> = (props: BriefWeatherProps) => {
   const navigate = useNavigate();
-  const { current } = useCityStore((state) => state);
   const { daily } = useForecastStore((state) => state);
   const { now } = useWeatherNowStore((state) => state);
   const [bg, setBg] = useState<string | null>(null);
@@ -49,7 +48,7 @@ export const BriefWeather: FC<BriefWeatherProps> = (props: BriefWeatherProps) =>
     <div className={cx('brief-weather', bg)}>
       <div className={cx('brief-weather__data')}>
         <h2 className={cx('brief-weather--location')} onClick={() => navigate('/list')}>
-          <span>{current(props.location).name}</span>
+          <span>{props.city}</span>
           <Icon type="ri" name="search-line" size="20px" />
         </h2>
         <Icon type="qi" name={`${now?.icon}-fill`} size="120px" color="#fff" />
