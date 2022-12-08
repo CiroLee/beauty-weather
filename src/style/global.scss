@@ -13,3 +13,13 @@
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+
+.power-by {
+  width: 100%;
+  display: inline-block;
+  text-decoration: none;
+  text-align: center;
+  font-size: 12px;
+  margin: 12px 0;
+  color: var(--common-sub-color);
+}

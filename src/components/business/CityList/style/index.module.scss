@@ -2,6 +2,11 @@
 
 .city-list {
   padding: 0 16px;
+  &__num {
+    margin: 12px 2px;
+    text-align: right;
+    color: var(--common-sub-color);
+  }
 }
 
 .city-item {

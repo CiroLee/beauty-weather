@@ -8,6 +8,7 @@ import { IWeatherForecast } from '@/types/weather';
 import { iconToBgMap } from '@/config/weather.config';
 import style from './style/index.module.scss';
 import classNames from 'classnames/bind';
+import { MAX_CITY_NUN } from '@/utils/constants';
 
 const cx = classNames.bind(style);
 const loading = new Loading();
@@ -116,6 +117,7 @@ const CityList: FC<CityListProps> = (props: CityListProps) => {
 
   return (
     <div className={cx('city-list')}>
+      <div className={cx('city-list__num')}>{`${list.length}/${MAX_CITY_NUN}`}</div>
       {list.map((item) => (
         <CityItem
           key={item.location}

@@ -16,6 +16,7 @@ import {
   IWeatherForecast,
   IWeatherNow,
 } from '@/types/weather';
+import { MAX_CITY_NUN } from '@/utils/constants';
 
 const message = new Message();
 // 当前使用的城市信息
@@ -49,6 +50,10 @@ export const useCityStore = create<CityState>()(
           }
         },
         addLocation: (location: string, name: string) => {
+          if (get().locations.length === MAX_CITY_NUN) {
+            message.warn('可添加城市数量已经达到上限!');
+            return;
+          }
           set((state) => {
             if (get().locations.find((item) => item.location === location)) {
               message.warn('该城市已在列表中');

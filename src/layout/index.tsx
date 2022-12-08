@@ -13,7 +13,14 @@ const Layout: FC = () => {
     }
   }, [isDark]);
 
-  return <Outlet />;
+  return (
+    <div>
+      <Outlet />
+      <a href="https://www.qweather.com" className="power-by" target="_blank" rel="noreferrer">
+        power by Qweather
+      </a>
+    </div>
+  );
 };
 
 export default Layout;
