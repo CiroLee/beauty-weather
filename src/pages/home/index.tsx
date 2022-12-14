@@ -4,7 +4,7 @@ import Icon from '@/components/Icon';
 import Loading from '@/components/Loading';
 import HourlyForecast from '@/components/business/HourlyForecast';
 import { BriefWeather } from '@/components/business/BriefWeather';
-import { AirQualityPanel, BodyTempPanel, HumidityPanel, SunsetPanel } from '@/components/business/InfoPanel';
+import { AirQualityPanel, BodyTempPanel, HumidityPanel, WindyPanel } from '@/components/business/InfoPanel';
 import ForecastList from '@/components/business/ForecastList';
 import IndicesPanel from '@/components/business/IndicesPanel';
 import WeatherWarnModal from '@/components/business/WeatherWarnModal';
@@ -103,7 +103,7 @@ const Home: FC = () => {
       <div className={cx('home__info-panels')}>
         <BodyTempPanel value={now?.feelsLike} />
         <HumidityPanel value={now?.humidity} />
-        <SunsetPanel sunrise={daily[0]?.sunrise} sunset={daily[0]?.sunset} />
+        <WindyPanel value={now?.windScale} wind360={now?.wind360} windSpeed={now?.windSpeed} winDir={now?.windDir} />
         <AirQualityPanel value={qualityNow?.aqi} category={qualityNow?.category} />
       </div>
       <ForecastList options={daily} />

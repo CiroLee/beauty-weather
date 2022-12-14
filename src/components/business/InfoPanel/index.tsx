@@ -2,7 +2,6 @@ import React, { FC } from 'react';
 import Icon from '@/components/Icon';
 import classNames from 'classnames/bind';
 import { tempMap, HumidityMap, InfoConfig } from '@/config/weather.config';
-import { useDayTimeStore } from '@/store/weather';
 import style from './style/index.module.scss';
 const cx = classNames.bind(style);
 
@@ -76,37 +75,6 @@ export const HumidityPanel: FC<PanelItem> = (props: PanelItem) => {
     </Panel>
   );
 };
-interface ISunsetPanelProps extends Omit<PanelItem, 'text'> {
-  sunrise: string;
-  sunset: string;
-}
-export const SunsetPanel: FC<ISunsetPanelProps> = (props: ISunsetPanelProps) => {
-  const { isDayTime } = useDayTimeStore((state) => state);
-  return (
-    <Panel panelClassName={props.panelClassName}>
-      <div className={cx('panel-main')}>
-        <div className={cx('panel-main__head')}>
-          <Icon
-            type="ri"
-            name="haze-line"
-            gradient="linear-gradient(180deg, rgba(255, 101, 5, 1) 0%, rgba(255, 216, 77, 1) 100%)"
-            size="18px"
-          />
-          <span>{isDayTime ? '日落' : '日出'}</span>
-        </div>
-        <div className={cx('panel-main__content', 'num-font')}>{isDayTime ? props.sunset : props.sunrise}</div>
-      </div>
-      <div className={cx('panel-rest')}>
-        {isDayTime ? (
-          <Icon type="ri" name="sun-fill" size="28px" className={cx('panel-rest__icon', 'sun')} />
-        ) : (
-          <Icon type="ri" name="moon-fill" size="28px" className={cx('panel-rest__icon', 'moon')} />
-        )}
-      </div>
-    </Panel>
-  );
-};
-
 interface IAirQualityPanel extends PanelItem {
   category?: string;
 }
@@ -147,6 +115,40 @@ export const AirQualityPanel: FC<IAirQualityPanel> = (props: IAirQualityPanel) =
             style={{ top: calcPercent(Number(props.value)) }}
             className={cx('panel-rest__quality-pointer')}
           />
+        </div>
+      </div>
+    </Panel>
+  );
+};
+
+// 风力
+interface WindyPanelProps extends PanelItem {
+  winDir?: string;
+  windSpeed?: string;
+  wind360?: string;
+}
+export const WindyPanel: FC<WindyPanelProps> = (props) => {
+  return (
+    <Panel panelClassName={props.panelClassName}>
+      <div className={cx('panel-main')}>
+        <div className={cx('panel-main__head')}>
+          <Icon
+            type="ri"
+            name="windy-line"
+            gradient="linear-gradient(90deg, rgba(20, 114, 168, 1) 0%, rgba(65, 154, 232, 1) 78.3%"
+            size="18px"
+          />
+          <span>风</span>
+        </div>
+        <div className={cx('panel-main__content')}>
+          <span className="'number-font'">{props.value}级</span>
+          <span className={cx('panel-main__sub-text')}>/{props.winDir}</span>
+        </div>
+      </div>
+      <div className={cx('panel-rest')}>
+        <div className={cx('panel-rest__wind')}>
+          <i className={cx('panel-rest__direction-icon')} style={{ transform: `rotate(${props.wind360}deg)` }}></i>
+          <p>{props.windSpeed}km/h</p>
         </div>
       </div>
     </Panel>

@@ -31,16 +31,23 @@
   font-size: 12px;
   overflow: hidden;
   position: relative;
-  &__icon {
-    position: absolute;
-    bottom: 4px;
-    right: 8px;
-    &.sun {
-      color: #fa8734;
+  &__wind {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    padding-bottom: 6px;
+    p {
+      margin-top: 12px;
     }
-    &.moon {
-      color: var(--moon-color);
-    }
+  }
+  &__direction-icon {
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    background: url('@/assets/icons/direction.svg') no-repeat center;
+    background-size: 100% auto;
   }
   &__tips {
     width: 100%;
