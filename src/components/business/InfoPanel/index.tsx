@@ -147,7 +147,9 @@ export const WindyPanel: FC<WindyPanelProps> = (props) => {
       </div>
       <div className={cx('panel-rest')}>
         <div className={cx('panel-rest__wind')}>
-          <i className={cx('panel-rest__direction-icon')} style={{ transform: `rotate(${props.wind360}deg)` }}></i>
+          <i
+            className={cx('panel-rest__direction-icon')}
+            style={{ transform: `rotate(${Number(props.wind360) + 180}deg)` }}></i>
           <p>{props.windSpeed}km/h</p>
         </div>
       </div>
