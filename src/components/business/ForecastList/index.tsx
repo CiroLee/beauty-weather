@@ -12,19 +12,22 @@ const cx = classNames.bind(style);
 interface IForecastProps {
   options: IWeatherForecast[];
 }
+
 interface TempBarProps {
   tempMin?: number;
   tempMax?: number;
 }
+
 const TempBar = (props: TempBarProps) => {
   const barRef = useRef<HTMLDivElement | null>(null);
   const { tempMin = 0, tempMax = 0 } = props;
   const threshold = 50;
   let tempRange: 'negative' | 'positive' | '' = '';
+
   function renderInnerBar() {
     let _offsetLeft = 0;
     let _offsetRight = 0;
-    if (tempMin < 0 && tempMax < 0) {
+    if (tempMin <= 0 && tempMax <= 0) {
       tempRange = 'negative';
     } else if (tempMin > 0 && tempMax > 0) {
       tempRange = 'positive';
@@ -40,6 +43,7 @@ const TempBar = (props: TempBarProps) => {
       '--offset-right': `${_offsetRight}%`,
     } as React.CSSProperties;
   }
+
   return (
     <div ref={barRef} className={cx('forecast-list__item-temp-bar')}>
       <div style={renderInnerBar()} className={cx('forecast-list__item-temp-bar--inner', tempRange)}></div>
@@ -48,6 +52,7 @@ const TempBar = (props: TempBarProps) => {
 };
 const ForecastList: FC<IForecastProps> = (props: IForecastProps) => {
   const { isDayTime } = useDayTimeStore((state) => state);
+
   function getWeek(date: string): string {
     const _date = date.replaceAll('-', '/');
     if (isSameDay(Date.now(), new Date(_date))) {
