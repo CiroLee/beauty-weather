@@ -35,7 +35,9 @@ const IndicesPanel: FC = () => {
         />
         <div className={cx('indices__item-text')}>
           <h4>日出/日落</h4>
-          <p>{daily[0].sunrise}/{daily[0].sunset}</p>
+          <p>
+            {daily[0]?.sunrise}/{daily[0]?.sunset}
+          </p>
         </div>
       </div>
       <div className={cx('indices__item')}>
