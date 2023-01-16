@@ -1,5 +1,5 @@
 import { FC, memo } from 'react';
-import { useWeatherIndicesStore } from '@/store/weather';
+import { useWeatherIndicesStore, useForecastStore } from '@/store/weather';
 import classNames from 'classnames/bind';
 import style from './style/index.module.scss';
 import Icon from '@/components/Icon';
@@ -7,6 +7,7 @@ import Icon from '@/components/Icon';
 const cx = classNames.bind(style);
 const IndicesPanel: FC = () => {
   const { indices } = useWeatherIndicesStore((state) => state);
+  const { daily } = useForecastStore((state) => state);
   function indicesData(type: string) {
     return indices.find((item) => item.type === type);
   }
@@ -28,13 +29,13 @@ const IndicesPanel: FC = () => {
       <div className={cx('indices__item')}>
         <Icon
           type="ri"
-          name="umbrella-fill"
+          name="sun-fill"
           size="32px"
-          gradient="linear-gradient(45deg, rgb(68, 26, 196) 0%, rgb(173, 125, 255) 80%)"
+          gradient="linear-gradient(0, rgb(249 181 45) 0%, rgb(237 133 31) 80%)"
         />
         <div className={cx('indices__item-text')}>
-          <h4>紫外线指数</h4>
-          <p>{indicesData('5')?.category}</p>
+          <h4>日出/日落</h4>
+          <p>{daily[0].sunrise}/{daily[0].sunset}</p>
         </div>
       </div>
       <div className={cx('indices__item')}>
