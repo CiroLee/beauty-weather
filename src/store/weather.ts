@@ -1,4 +1,4 @@
-import create from 'zustand';
+import { create } from 'zustand';
 import Message from '@/components/Message';
 import { persist } from 'zustand/middleware';
 import {
